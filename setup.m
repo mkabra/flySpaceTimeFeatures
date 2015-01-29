@@ -1,4 +1,4 @@
 if ~exist('gradientHist'),
-  addpath(genpath(pwd));
+   addpath(genpath(pwd));
 end
 
