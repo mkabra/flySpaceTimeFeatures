@@ -16,7 +16,7 @@ optreliability = 1e-4;
 tic;
 
 nframes = numel(fstart:fend+1);
-im = uint8(zeros(headerinfo.nr,headerinfo.nc,nframes));
+im = uint8(zeros(headerinfo.nc,headerinfo.nr,nframes));
 count = 1;
 for ndx = fstart:fend
   im(:,:,count) = readfcn(ndx);
