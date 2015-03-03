@@ -1,7 +1,7 @@
 function extractPerframeFtrs(outdir,ftrs)
 
-if ~exist(fullfile(outdir,'perframe'),'dir'),
-  mkdir( fullfile(outdir,'perframe'));
+if ~exist(outdir,'dir'),
+  mkdir( outdir);
 end
 
 ff = fields(ftrs);
