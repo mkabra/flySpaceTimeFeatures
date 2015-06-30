@@ -16,7 +16,7 @@ for fnum = 1:numel(ff)
       perframe.data{fly} = ftrs.(ff{fnum}){fly}(ftrnum,:);
     end
     perframe_name = sprintf('%s_%04d',ff{fnum},ftrnum);
-    outfilename = fullfile(outdir,'perframe',perframe_name);
+    outfilename = fullfile(outdir,perframe_name);
     save(outfilename,'-struct','perframe');
     
   end
