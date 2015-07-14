@@ -27,7 +27,8 @@ for fnum = 1:numel(ff)
         perframe.units.num = {};
         perframe.units.den = {'s'};
         for fly = 1:numel(ftrs.(ff{fnum}))
-          perframe.data{fly} = ftrs.(ff{fnum}){fly}(yy,xx,oo,:);
+          tt = ftrs.(ff{fnum}){fly}(yy,xx,oo,:);
+          perframe.data{fly} = tt(:);
         end
         perframe_name = sprintf('%s_%02d_%02d_%d',pfname,yy,xx,oo);
         outfilename = fullfile(outdir,perframe_name);
