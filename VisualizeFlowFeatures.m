@@ -1,4 +1,4 @@
-function VisualizeFlowFeatures(bdir,fly,frame,stationary)
+function VisualizeFlowFeatures(bdir,fly,fnum,stationary)
 %% inputs.
 
 % fnum = 10125;
