@@ -1,4 +1,8 @@
-function ftrs = genFeatures(readfcn,headerinfo,fstart,fend,tracks)
+function ftrs = genFeatures(readfcn,headerinfo,fstart,fend,tracks,stationary)
+
+if nargin< 6,
+  stationary = false;
+end
 
 %% parameters
 
@@ -61,6 +65,11 @@ for ndx = fstart:fend
     locx = round(tracks(fly).x(trackndx));
     curpatch = extractPatch(im(:,:, ndx-fstart + 1),...
       locy,locx,tracks(fly).theta(trackndx),patchsz);
+    if stationary && ndx<tracks(fly).endframe
+      locy = round(tracks(fly).y(trackndx+1));
+      locx = round(tracks(fly).x(trackndx+1));
+        
+    end
     curpatch2 = extractPatch(im(:,:, ndx-fstart + 2),...
       locy,locx,tracks(fly).theta(trackndx),patchsz);
     

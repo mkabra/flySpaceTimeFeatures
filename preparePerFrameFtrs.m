@@ -1,10 +1,10 @@
-function preparePerFrameFtrs(moviefilename,trackfilename)
+function preparePerFrameFtrs(moviefilename,trackfilename,stationary)
 
 % function preparePerFrameFtrs(moviefilename,trackfilename)
 % The perframe features are stored in perframedir.
 
 setup;
-ftrs = computeFeaturesParallel(moviefilename,trackfilename);
+ftrs = computeFeaturesParallel(moviefilename,trackfilename,stationary);
 expdir = fileparts(moviefilename);
-extractPerframeFtrs(fullfile(expdir,'perframe'),ftrs);
+extractPerframeFtrs(fullfile(expdir,'perframe'),ftrs,stationary);
   

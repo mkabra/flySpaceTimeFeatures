@@ -1,4 +1,8 @@
-function ftrs = computeFeaturesParallel(moviename,trackfilename)
+function ftrs = computeFeaturesParallel(moviename,trackfilename,stationary)
+
+if nargin<3,
+  stationary = false;
+end
 
 tracks = load(trackfilename);
 tracks = tracks.trx;
@@ -16,7 +20,7 @@ parfor ndx = 1:nblocks
   [readfcn,nframes,fid,headerinfo] = get_readframe_fcn(moviename);
   fstart = (ndx-1)*blocksize+1;
   fend = min(nframes,ndx*blocksize);
-  allftrs{ndx} = genFeatures(readfcn,headerinfo,fstart,fend,tracks);
+  allftrs{ndx} = genFeatures(readfcn,headerinfo,fstart,fend,tracks,stationary);
   
   fclose(fid);
   fprintf('.');
@@ -32,7 +36,7 @@ for fly = 1:numel(tracks)
   for fnum = 1:numel(ff)
     ftrsz = size(allftrs{1}.(ff{fnum}){1});
     ftrsz(end) = [];
-    ftrs.(ff{fnum}){fly} = zeros([prod(ftrsz) frames_fly],'single');
+    ftrs.(ff{fnum}){fly} = zeros([ftrsz frames_fly],'single');
   end
 end
 
@@ -44,8 +48,10 @@ for fnum = 1:numel(ff)
       numframes = size(allftrs{bnum}.(ff{fnum}){flynum});
       numframes = numframes(end);
       if numframes < 1, continue; end
-      ftrs.(ff{fnum}){flynum}(:,count:count+numframes-1) = ...
-        single(reshape(allftrs{bnum}.(ff{fnum}){flynum},[],numframes));
+%       ftrs.(ff{fnum}){flynum}(:,count:count+numframes-1) = ...
+%         single(reshape(allftrs{bnum}.(ff{fnum}){flynum},[],numframes));
+      ftrs.(ff{fnum}){flynum}(:,:,:,count:count+numframes-1) = ...
+        single(allftrs{bnum}.(ff{fnum}){flynum});
       count = count + numframes;
     end
   end
