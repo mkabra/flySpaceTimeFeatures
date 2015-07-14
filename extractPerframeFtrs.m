@@ -9,12 +9,10 @@ ff = fields(ftrs);
 % Initialize the struct for features of all the frames
 for fnum = 1:numel(ff)
   curf = ff{fnum};
-  if strcmp(curf,'hogftrs') && stationary,
-    pfname = 'hfs';
+  if strcmp(curf,'hogftrs') ,
+    pfname = 'hf';
   elseif strcmp(curf,'flowftrs') && stationary,
     pfname = 'ffs';
-  elseif strcmp(curf,'hogftrs') && ~stationary,
-    pfname = 'hf';
   elseif strcmp(curf,'flowftrs') && ~stationary,
     pfname = 'ff';
   else
