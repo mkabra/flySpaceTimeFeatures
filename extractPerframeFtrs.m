@@ -30,7 +30,7 @@ for fnum = 1:numel(ff)
         end
         perframe_name = sprintf('%s_%02d_%02d_%d',pfname,yy,xx,oo);
         outfilename = fullfile(outdir,perframe_name);
-        save(outfilename,'-struct','perframe');
+        save(outfilename,'-struct','perframe','-v7.3');
       end
     end
   end
