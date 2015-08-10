@@ -116,8 +116,11 @@ end
 
 % set callback for slider motion
 fcn = get(handles.slider_Frame,'Callback');
-handles.hslider_listener = handle.listener(handles.slider_Frame,...
-  'ActionEvent',fcn);
+% handles.hslider_listener = handle.listener(handles.slider_Frame,...
+%   'ActionEvent',fcn);
+% R2014b onwards.
+% handles.hslider_listener = addlistener(handles.slider_Frame,...
+%   'PostSet',fcn);
 
 % open video
 handles = open_fmf(handles);

@@ -1,5 +1,22 @@
-function VisualizeFlowFeatures(bdir,fly,fnum,stationary)
+function im = VisualizeFlowFeatures(bdir,fly,fnum,stationary,method)
 %% inputs.
+
+if nargin<5,
+  method = 'hs_sup';
+end
+
+if strcmp(method,'LK')
+  fname = 'ff';
+elseif strcmp(method,'hs-brightness')
+  fname = 'hs_ff';
+elseif strcmp(method,'hs-sup')
+  fname = 'hs_sup';
+else
+  error('Unknown method %s',method);
+end
+if stationary,
+  fname = [fname 's']; 
+end
 
 % fnum = 10125;
 % fly = 1;
@@ -28,7 +45,7 @@ res = nan(nbins,numel(tmptheta));
 m = single(ones(10,10));
 o = single(zeros(10,10));
 for i = 1:numel(tmptheta),
-  fprintf('i = %d, theta = %f\n',i,tmptheta(i));
+%   fprintf('i = %d, theta = %f\n',i,tmptheta(i));
   o(:) = single(tmptheta(i));
   rescurr = gradientHist(m,o,1,nbins,1);
   res(:,i) = rescurr(1,1,:);
@@ -69,12 +86,13 @@ if stationary
   locy = round(tracks(fly).y(trackndx+1));
   locx = round(tracks(fly).x(trackndx+1));
 end
+
+if ~strcmp(method,'hs_sup')
 im2 = extractPatch(im2,...
   locy,locx,tracks(fly).theta(trackndx),patchsz);
-
-fname = 'ff';
-if stationary,
-  fname = [fname 's']; 
+else
+im2 = extractPatch(im2,...
+  locy,locx,tracks(fly).theta(trackndx+1),patchsz);  
 end
 
 F = zeros(8,8,8);
@@ -92,8 +110,7 @@ end
   
 % plot
 
-hfig = 100;
-figure(hfig);
+hfig = figure;
 clf;
 hax = axes('Position',[0,0,1,1]);
 set(hfig,'Units','pixels','Position',get(0,'ScreenSize'));
@@ -101,11 +118,19 @@ set(hfig,'Units','pixels','Position',get(0,'ScreenSize'));
 im1curr = im1;
 im2curr = im2;
 
-[Vx,Vy,~] = optFlowLk(im1curr,im2curr,[],optflowwinsig,optflowsig,optreliability);
+% if strcmp(method,'LK'),
+%   [Vx,Vy,~] = optFlowLk(im1curr,im2curr,[],optflowwinsig,optflowsig,optreliability);
+% else
+%   im1curr = uint8(im1curr);im2curr = uint8(im2curr);
+%   uv = estimate_flow_interface(im1curr,im2curr,method,{'max_warping_iters',2});
+%   Vx = uv(:,:,1);
+%   Vy = uv(:,:,2);
+% end
+% 
+% subplot(1,2,1); imshow(flowToColor(cat(3,Vx,Vy)));
+% 
+% subplot(1,2,2);
 
-subplot(1,2,1); imshow(flowToColor(cat(3,Vx,Vy)));
-
-subplot(1,2,2);
 him = imshowpair(imresize(im1curr,scale),imresize(im2curr,scale));
 axis image;
 truesize;
@@ -139,3 +164,4 @@ for xi = 1:ceil(nc/psize),
     
   end
 end
+im = getframe(hax);

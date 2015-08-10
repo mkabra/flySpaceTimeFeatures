@@ -196,3 +196,237 @@ for clipno = 1:numel(fstarts)
   % figure; imshow(uint8(outI))
 end
 fclose(fid);
+
+
+%% compare two opt flow methods side by side
+
+[read1,nframes1] = get_readframe_fcn('HS-brightness_GrabHOF_20150717.avi');
+[read2,nframes2] = get_readframe_fcn('HS-brightness_compensated_GrabHOF_20150717.avi');
+[read3,nframes3] = get_readframe_fcn('HS-brightness_suppressed_GrabHOF_20150717.avi');
+[read4,nframes4] = get_readframe_fcn('LK_GrabHOF_20150717.avi');
+assert(nframes1==nframes2);
+
+vid = VideoWriter(sprintf('Allcomparison_%s.avi',datestr(now,'yyyymmdd')));
+open(vid);
+for ndx = 1:nframes1
+  i1 = read1(ndx);
+  i2 = read2(ndx);
+  i3 = read3(ndx);
+  i4 = read4(ndx);
+  i2 = imresize(i2,[size(i1,1) size(i1,2)]);
+  i3 = imresize(i3,[size(i1,1) size(i1,2)]);
+  i4 = imresize(i4,[size(i1,1) size(i1,2)]);
+  i1 = insertText(i1,[10 10],'HS');
+  i2 = insertText(i2,[10 10],'HS-compensated');
+  i3 = insertText(i3,[10 10],'HS-suppressed');
+  i4 = insertText(i4,[10 10],'LK');
+  allii = [i1 i2; i3 i4];
+  writeVideo(vid,allii);
+  
+end
+
+close(vid);
+
+%% Background Flow compensation
+
+fly_thres = 90;
+
+sz = size(im1);
+bwimg = zeros(sz(1),sz(2));
+ctr = [round( (sz(1)+1)/2),round( (sz(2)+1)/2)];
+bwimg(ctr(1),ctr(2))=1;
+dimg = bwdist(bwimg,'euclidean');
+[xx,yy]= meshgrid(1:sz(2),1:sz(1));
+aimg = atan2(-(yy-ctr(1)),-(xx-ctr(2)));
+
+for t = t0:10:t1;
+%%
+im1curr = im1(:,:,t-t0+1);
+im2curr = im2(:,:,t-t0+1);
+fig = figure; subplot(1,4,1);
+
+him = imshowpair(imresize(im1curr,1),imresize(im2curr,1));
+ctheta = dtheta(t-t0+1);
+title(sprintf('%d:%.2f',t-t0+1,180/pi*ctheta));
+
+uv = estimate_flow_interface(im1curr,im2curr,'hs-brightness');
+uvdd = uv;
+cdx = dx(t-t0+1);
+cdy = dy(t-t0+1);
+curt = theta(t-t0+1);
+rotd = [cos(curt) sin(curt); -sin(curt) cos(curt)]*[cdx;cdy];
+cdx = -rotd(1); cdy = -rotd(2);
+ctheta = dtheta(t-t0+1);
+uvdd(1:10,1:10,1) = cdx;
+uvdd(1:10,1:10,2) = cdy;
+
+rotflowu = (dimg).*(cos(aimg+ctheta)-cos(aimg));
+rotflowv = (dimg).*(sin(aimg+ctheta)-sin(aimg));
+
+fly_bod = (im1curr<fly_thres)|(im2curr<fly_thres);
+fly_flow = zeros(1,2);
+for ndx = 1:2
+  tt = uv(:,:,ndx);
+  fly_flow(ndx) = median(tt(fly_bod));
+end
+uvdd((end-9:end)-10,1:10,1) = fly_flow(1);
+uvdd((end-9:end)-10,1:10,2) = fly_flow(2);
+
+crdx = rdx(t-t0+1);
+crdy = rdy(t-t0+1);
+rotd = [cos(curt) sin(curt); -sin(curt) cos(curt)]*[crdx;crdy];
+crdx = rotd(1); crdy = rotd(2);
+uvdd(end-9:end,1:10,1) = crdx(1);
+uvdd(end-9:end,1:10,2) = crdy(1);
+
+figure(fig); subplot(1,4,2);
+imshow(flowToColor(uvdd)); 
+
+uvflow = cat(3,rotflowu+cdx,rotflowv+cdy);
+% dd = abs(uv(:,:,1)-cdx)+abs(uv(:,:,2)-cdy);
+% subplot(1,4,3);
+% imagesc(dd); colorbar;axis equal;
+
+dd1 = sqrt( (uv(:,:,1)-cdx-rotflowu).^2 + (uv(:,:,2)-cdy-rotflowv).^2);
+dd2 = sqrt( (uv(:,:,1)-fly_flow(1)).^2 + (uv(:,:,2)-fly_flow(2)).^2);
+dd = min(dd1,dd2);
+subplot(1,4,3);
+imshow(flowToColor(uvflow));
+
+uvtt = uv;
+for ndx = 1:2
+  tt = uvtt(:,:,ndx);
+  tt(dd< (sqrt(2)/2)) = 0;
+  uvtt(:,:,ndx) = tt;
+end
+subplot(1,4,4);
+imshow(flowToColor(uvtt)); 
+%%
+pause;
+
+end
+
+%% Debug flow estiamte
+
+nc = 4; nr = 3;
+
+method = 'ba-brightness';
+
+t = t0;
+% t = t1-1;
+% t = t0+93;
+im1curr = im1(:,:,t-t0+1);
+im2curr = im2(:,:,t-t0+1);
+im3curr = im3(:,:,t-t0+1);
+fig = figure; 
+subplot(nc,nr,1);
+him = imshowpair(imresize(im1curr,1),imresize(im3curr,1));
+subplot(nc,nr,2);
+him = imshowpair(imresize(im3curr,1),imresize(im2curr,1));
+subplot(nc,nr,3);
+him = imshowpair(imresize(im1curr,1),imresize(im2curr,1));
+
+cdx = dx(t-t0+1);
+cdy = dy(t-t0+1);
+curt = theta(t-t0+1);
+rotd = [cos(curt) sin(curt); -sin(curt) cos(curt)]*[cdx;cdy];
+cdx = -rotd(1); cdy = -rotd(2);
+
+ctheta = dtheta(t-t0+1);
+title(sprintf('%d:dx:%.1f,dy:%.1f,theta:%.2f',t-t0+1,cdx,cdy,180/pi*ctheta));
+
+% uv = estimate_flow_interface(im1curr,im2curr,'hs-brightness',{'max_warping_iters',1});
+% uv13 = estimate_flow_interface(im1curr,im3curr,'hs-brightness',{'max_warping_iters',1});
+% uv23 = estimate_flow_interface(im3curr,im2curr,'hs-brightness',{'max_warping_iters',1});
+uv = estimate_flow_interface(im1curr,im2curr,method);
+uv13 = estimate_flow_interface(im1curr,im3curr,method);
+uv23 = estimate_flow_interface(im3curr,im2curr,method);
+
+figure(fig); subplot(nc,nr,4);
+imshow(flowToColor(uv13,maxflow)); 
+figure(fig); subplot(nc,nr,5);
+imshow(flowToColor(uv23,maxflow)); 
+figure(fig); subplot(nc,nr,6);
+imshow(flowToColor(uv,maxflow)); 
+
+subplot(nc,nr,7);
+flowtrans = cat(3,repmat(cdx,size(im1curr)),repmat(cdy,size(im1curr)));
+imshow(flowToColor(flowtrans,maxflow));
+
+subplot(nc,nr,8)
+rotflowu = (dimg).*(cos(aimg+ctheta)-cos(aimg));
+rotflowv = (dimg).*(sin(aimg+ctheta)-sin(aimg));
+flowrot = cat(3,rotflowu,rotflowv);
+imshow(flowToColor(flowrot,maxflow));
+
+uvflow = cat(3,rotflowu+cdx,rotflowv+cdy);
+subplot(nc,nr,9);
+imshow(flowToColor(uvflow,maxflow));
+
+subplot(nc,nr,10)
+imshow(flowToColor(uv13-flowtrans));
+subplot(nc,nr,11);
+imshow(flowToColor(uv23-flowrot));
+subplot(nc,nr,12);
+imshow(flowToColor(uv-uvflow));
+
+%%
+
+ss = 1./[0.9:0.05:1.1];
+figure;count = 1;
+for cc = ss(:)'
+rotflowu = (dimg).*(cos(aimg+ctheta)-cos(aimg))*cc;
+rotflowv = (dimg).*(sin(aimg+ctheta)-sin(aimg))*cc;
+flowrot = cat(3,rotflowu,rotflowv);
+
+gg = uv23-flowrot;
+subplot(3,numel(ss),count);quiver(gg(:,:,1),gg(:,:,2));
+subplot(3,numel(ss),count+2*numel(ss));imshow(flowToColor(gg,4));
+count = count + 1;
+end
+
+%% Test computeFlow
+
+t = t0 + 4;
+% t = t1-1;
+% t = t0+93;
+im1curr = im1(:,:,t-t0+1);
+im2curr = im2(:,:,t-t0+1);
+
+uv = estimate_flow_interface(im1curr,im2curr,'hs-brightness',{'max_warping_iters',1});
+
+cdx = dx(t-t0+1);
+cdy = dy(t-t0+1);
+curt = theta(t-t0+1);
+rotd = [cos(curt) sin(curt); -sin(curt) cos(curt)]*[cdx;cdy];
+cdx = -rotd(1); cdy = -rotd(2);
+
+ctheta = dtheta(t-t0+1);
+rotflowu = dimg.*(cos(aimg+ctheta)-cos(aimg));
+rotflowv = dimg.*(sin(aimg+ctheta)-sin(aimg));
+
+crdx = rdx(t-t0+1);  crdy = rdy(t-t0+1);
+rotd = [cos(curt) sin(curt); -sin(curt) cos(curt)]*[crdx;crdy];
+fly_flow = rotd;
+
+dd1 = sqrt( (uv(:,:,1)-cdx-rotflowu).^2 + (uv(:,:,2)-cdy-rotflowv).^2);
+dd2 = sqrt( (uv(:,:,1)-fly_flow(1)).^2 + (uv(:,:,2)-fly_flow(2)).^2);
+dd = min(dd1,dd2);
+for ndx = 1:2
+  tt = uv(:,:,ndx);
+  tt( dd<(dd_err+flow_thres)) = 0;
+  uv(:,:,ndx) = tt;
+end
+uvLocal = uv;
+
+
+params.dx = cdx; params.dy = cdy;
+params.rdx = crdx; params.rdy = crdy;
+params.theta = curt; params.dtheta = ctheta;
+params.flow_thres = flow_thres; 
+params.dd_err = dd_err;
+params.dimg = dimg; params.aimg = aimg;
+
+[Vx,Vy] = computeFlowBkgSup(im1curr,im2curr,params);
+uvC = cat(3,Vx,Vy);
+disp(max(abs(uvLocal(:)-uvC(:))))

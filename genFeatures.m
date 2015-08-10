@@ -1,4 +1,4 @@
-function ftrs = genFeatures(readfcn,headerinfo,fstart,fend,tracks,stationary)
+function ftrs = genFeatures(readfcn,headerinfo,fstart,fend,tracks,stationary,method)
 
 if nargin< 6,
   stationary = false;
@@ -54,6 +54,28 @@ end
 %% Compute the features.
 
 flycount = ones(1,nflies);
+methodC = 0;
+if strcmp(method,'LK') % OLD 
+  methodC = 1;
+elseif strcmp(method,'hs-brightness')
+  methodC = 2;
+elseif strcmp(method,'hs-sup') 
+  % HS with flow in background and fly suppressed
+  methodC = 3;
+else
+  error('Unknown Method')
+end
+
+% For background suppression
+params = struct;
+bwimg = zeros(patchsz,patchsz);
+ctr = [ceil( (patchsz+1)/2),ceil( (patchsz+1)/2)];
+bwimg(ctr(1),ctr(2))=1;
+dimg = bwdist(bwimg,'euclidean');
+[xx,yy]= meshgrid(1:patchsz,1:patchsz);
+aimg = atan2(-(yy-ctr(1)),-(xx-ctr(2)));
+params.dimg = dimg; params.aimg = aimg;
+
 for ndx = fstart:fend
   
   for fly = 1:nflies
@@ -65,19 +87,56 @@ for ndx = fstart:fend
     locx = round(tracks(fly).x(trackndx));
     curpatch = extractPatch(im(:,:, ndx-fstart + 1),...
       locy,locx,tracks(fly).theta(trackndx),patchsz);
+
     if stationary && ndx<tracks(fly).endframe
       locy = round(tracks(fly).y(trackndx+1));
       locx = round(tracks(fly).x(trackndx+1));
-        
     end
-    curpatch2 = extractPatch(im(:,:, ndx-fstart + 2),...
-      locy,locx,tracks(fly).theta(trackndx),patchsz);
+    
+    if methodC<3  || ~stationary || ndx==tracks(fly).endframe
+      % theta of earlier frame is really bad idea. 
+      % Shouldn't have used ever. But it'll hang around if 
+      % we ever want to compare to earlier methods.
+      curpatch2 = extractPatch(im(:,:, ndx-fstart + 2),...
+        locy,locx,tracks(fly).theta(trackndx),patchsz);
+    else
+      curpatch2 = extractPatch(im(:,:, ndx-fstart + 2),...
+        locy,locx,tracks(fly).theta(trackndx+1),patchsz);
+    end
+    
     
     curpatch = single(curpatch);
+    curpatch2 = single(curpatch2);
     [M,O] = gradientMag(curpatch(:,:,1)/255);
     O = min(O,pi-1e-6);
     hogftrs{fly}(:,:,:,flycount(fly)) = single(gradientHist(M,O,psize,nbins,false));
-    [Vx,Vy,~] = optFlowLk(curpatch,curpatch2,[],optflowwinsig,optflowsig,optreliability); % Using soft windows
+    if methodC ==1,
+      [Vx,Vy,~] = optFlowLk(curpatch,curpatch2,[],optflowwinsig,optflowsig,optreliability); % Using soft windows
+    elseif methodC ==2
+      curpatch = uint8(curpatch);
+      curpatch2 = uint8(curpatch2);
+      uv = estimate_flow_interface(curpatch,curpatch2,method,{'max_warping_iters',2});
+      Vx = uv(:,:,1);
+      Vy = uv(:,:,2);
+    elseif methodC ==3
+      curpatch = uint8(curpatch);
+      curpatch2 = uint8(curpatch2);
+      if ndx<tracks(fly).endframe
+        params.dx = round(tracks(fly).x(trackndx+1)) - round(tracks(fly).x(trackndx));
+        params.dy = round(tracks(fly).y(trackndx+1)) - round(tracks(fly).y(trackndx));
+        params.dtheta = tracks(fly).theta(trackndx+1) - tracks(fly).theta(trackndx);
+        params.rdx = tracks(fly).x(trackndx+1) - tracks(fly).x(trackndx)-params.dx;
+        params.rdy = tracks(fly).y(trackndx+1) - tracks(fly).y(trackndx)-params.dy;
+      else
+        params.dx = 0;
+        params.dy = 0;
+        params.dtheta = 0;
+        params.rdx = 0;
+        params.rdy = 0;
+      end
+      params.theta = tracks(fly).theta(trackndx);
+      [Vx,Vy] = computeFlowBkgSup(curpatch,curpatch2,params);
+    end
 %    [Vx,Vy,~] = optFlowLk(curpatch,curpatch2,4,[],optflowsig); % Using hard windows
     M = single(sqrt(Vx.^2 + Vy.^2));
     O = mod(atan2(Vy,Vx)/2,pi);

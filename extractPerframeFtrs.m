@@ -1,4 +1,4 @@
-function extractPerframeFtrs(outdir,ftrs,stationary)
+function extractPerframeFtrs(outdir,ftrs,stationary,flowname)
 
 if ~exist(outdir,'dir'),
   mkdir( outdir);
@@ -12,9 +12,9 @@ for fnum = 1:numel(ff)
   if strcmp(curf,'hogftrs') ,
     pfname = 'hf';
   elseif strcmp(curf,'flowftrs') && stationary,
-    pfname = 'ffs';
+    pfname = [flowname 's'];
   elseif strcmp(curf,'flowftrs') && ~stationary,
-    pfname = 'ff';
+    pfname = flowname;
   else
     error('Unknown feature type');
   end
