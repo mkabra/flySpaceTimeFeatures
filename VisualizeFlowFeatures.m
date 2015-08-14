@@ -2,7 +2,7 @@ function im = VisualizeFlowFeatures(bdir,fly,fnum,stationary,method)
 %% inputs.
 
 if nargin<5,
-  method = 'hs_sup';
+  method = 'hs-sup';
 end
 
 if strcmp(method,'LK')
@@ -40,21 +40,21 @@ optflowsig = 2;
 optreliability = 1e-4;
 %% compute the bins
 
-tmptheta = (0:179)*pi/180;
-res = nan(nbins,numel(tmptheta));
-m = single(ones(10,10));
-o = single(zeros(10,10));
-for i = 1:numel(tmptheta),
-%   fprintf('i = %d, theta = %f\n',i,tmptheta(i));
-  o(:) = single(tmptheta(i));
-  rescurr = gradientHist(m,o,1,nbins,1);
-  res(:,i) = rescurr(1,1,:);
-end
-
-bincenters = nan(1,nbins);
-for i = 1:nbins,
-  bincenters(i) = tmptheta(argmax(res(i,:)));
-end
+% tmptheta = (0:179)*pi/180;
+% res = nan(nbins,numel(tmptheta));
+% m = single(ones(10,10));
+% o = single(zeros(10,10));
+% for i = 1:numel(tmptheta),
+% %   fprintf('i = %d, theta = %f\n',i,tmptheta(i));
+%   o(:) = single(tmptheta(i));
+%   rescurr = gradientHist(m,o,1,nbins,1);
+%   res(:,i) = rescurr(1,1,:);
+% end
+% 
+% bincenters = nan(1,nbins);
+% for i = 1:nbins,
+%   bincenters(i) = tmptheta(argmax(res(i,:)));
+% end
 
 % this seems to be what the centers correspond to
 bincenters = linspace(0,pi,nbins+1);
@@ -141,16 +141,17 @@ axis off;
 colors = hsv(nbins);
 
 [nr,nc,~] = size(im1);
-maxv2 = max(F(:));
+% maxv2 = max(F(:));
+maxv2 = 4;
 
 h = [];
 for xi = 1:ceil(nc/psize),
-  cx = (psize/2 + 1 + (xi-1)*psize)*scale;
+  cx = (psize/2  + (xi-1)*psize)*scale+ 1;
   if cx+psize/2 > nc*scale,
     break;
   end
   for yi = 1:ceil(nr/psize),
-    cy = (psize/2 + 1 + (yi-1)*psize)*scale;
+    cy = (psize/2 + (yi-1)*psize)*scale+ 1;
     if cy+psize/2 > nr*scale,
       break;
     end

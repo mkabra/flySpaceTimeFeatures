@@ -11,16 +11,21 @@ fly_thres = 90;
 flow_thres = sqrt(2)/4;
 scale = 6;
 
-makeVideo = true;
+makeVideo = false;
 
-expdir = '../mated10_20140714T131113';
-frames = 10900 +(1:200);
-fly = 1;
-
-% expdir = '/home/mayank/Work/FlySpaceTime/walkMovies/SS03500';
+% expdir = '../mated10_20140714T131113';
+% frames = 10900 +(1:200);
 % fly = 1;
-% frames = 10200 + (1:100);
+
+expdir = '/home/mayank/Work/FlySpaceTime/walkMovies/SS03500';
+fly = 1;
+frames = 10200 + (1:100);
 % frames = 735:780;
+% fly = 3;
+% frames = 1886:1888;
+% frames = 1477:1477;
+fly = 2;
+frames = 5503;
 [~,expname] = fileparts(expdir);
 moviefilestr = 'movie.ufmf';
 moviefile = fullfile(expdir,moviefilestr);
@@ -119,8 +124,8 @@ for t = t0:20:t1,
   im2curr = im2(:,:,t-t0+1);
 %   [Vx,Vy,~] = optFlowLk(im1(:,:,i),im2(:,:,i),[],optflowwinsig,optflowsig,optreliability);
 %  [Vx,Vy,] = optFlowHorn(im1curr,im2curr,optflowsig);
-%   uv = estimate_flow_interface(im1curr,im2curr,'hs-brightness',{'max_warping_iters',2});
-  uv = estimate_flow_interface(im1curr,im2curr,'ba-brightness');
+  uv = estimate_flow_interface(im1curr,im2curr,'hs-brightness',{'max_warping_iters',10});
+%   uv = estimate_flow_interface(im1curr,im2curr,'ba-brightness');
   Vx = uv(:,:,1); Vy = uv(:,:,2);
 
 %   Vx = Vx-dx(t-t0+1);
@@ -133,6 +138,7 @@ for t = t0:20:t1,
   maxv2 = max(maxv2,max(H(:)));
 end
 
+%%
 if makeVideo
   vid = VideoWriter(sprintf('%s_Fly%d_From%d_To%d_HOF_%s.avi',expname,fly,t0,t1,datestr(now,'yyyymmdd')));
   open(vid);
@@ -159,8 +165,10 @@ for t = t0:t1,
 %   [Vx,Vy,~] = optFlowLk(im1curr,im2curr,[],3);
 %   [Vx,Vy,~] = optFlowLk(im1curr,im2curr,[],optflowwinsig,optflowsig,optreliability);
 %   [Vx,Vy,] = optFlowHorn(im1curr,im2curr,optflowsig);
-  uv = estimate_flow_interface(im1curr,im2curr,'hs-brightness',{'max_warping_iters',2 });
+  uv = estimate_flow_interface(im1curr,im2curr,'hs-brightness',...
+    {'max_warping_iters',2 });
 %   uv = estimate_flow_interface(im1curr,im2curr,'ba-brightness',{'max_warping_iters',2 });
+%   uv = estimate_flow_interface(im1curr,im2curr,'classic++');
   uvorig = uv;
   pairimg(imsz(1)+(1:imsz(1)),1:imsz(2),:) = flowToColor(uv,maxflow);
   
@@ -262,7 +270,7 @@ for t = t0:t1,
   if makeVideo
     fr = getframe(hax);
     writeVideo(vid,fr);
-  else
+  elseif t0<t1
     pause;
   end
 end

@@ -8,7 +8,14 @@ function [Vx,Vy] = computeFlowBkgSup(im1curr,im2curr,params)
 dd_err = params.dimg/80;
 flow_thres = sqrt(2)/3;
 
-uv = estimate_flow_interface(im1curr,im2curr,'hs-brightness',{'max_warping_iters',1});
+uv = estimate_flow_interface(im1curr,im2curr,...
+  'hs-brightness',{'max_warping_iters',2});
+
+if ~params.stationary,
+  Vx = uv(:,:,1);
+  Vy = uv(:,:,2);
+  return;
+end
 
 cdx = params.dx;
 cdy = params.dy;

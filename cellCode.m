@@ -430,3 +430,29 @@ params.dimg = dimg; params.aimg = aimg;
 [Vx,Vy] = computeFlowBkgSup(im1curr,im2curr,params);
 uvC = cat(3,Vx,Vy);
 disp(max(abs(uvLocal(:)-uvC(:))))
+
+%% testing patch match
+
+cores = 24; algo = 'cputiled';
+A = im1curr;
+B = im2curr;
+psz = size(A);
+patch_w = 5;
+hsz = (patch_w-1)/2;
+ann0 = nnmex(repmat(uint8(A),1,1,3), repmat(uint8(B),1,1,3), ...
+  algo, patch_w, [], [], [], [], [], cores,[],[15 15]);   % Warm up
+dd = zeros(psz(1),psz(2));
+dd(hsz+1:end-hsz,hsz+1:end-hsz) = double(ann0(1:end-patch_w+1,1:end-patch_w+1,3));
+dd(dd>100000) = 0;
+% dd(dd>5000)=5000;
+[xx yy] = meshgrid(1:size(A,1),1:size(A,2));
+kk = zeros(size(A,1),size(A,2),2);
+kk(hsz+1:end-hsz,hsz+1:end-hsz,:) = double(ann0(1:end-patch_w+1,1:end-patch_w+1,1:2));
+kk(:,:,1) = kk(:,:,1)-xx;
+kk(:,:,2) = kk(:,:,2)-yy;
+figure;
+ax = [];
+ax(1) = subplot(1,3,1); imshowpair(A,B);
+ax(2) = subplot(1,3,2); imshow(flowToColor(kk,5));
+ax(3) = subplot(1,3,3); imagesc(dd); axis equal; axis image
+linkaxes(ax);

@@ -5,7 +5,7 @@ moviename = fullfile(bdir,'movie.ufmf');
 trackfilename = fullfile(bdir,'trx.mat');
 
 fname = 'hf';
-wd = 2;
+wd = 0.5;
 %% params
 
 scale = 6;
@@ -27,10 +27,10 @@ patchsz = psize*npatches;
 %   res(:,i) = rescurr(1,1,:);
 % end
 
-bincenters = nan(1,nbins);
-for i = 1:nbins,
-  bincenters(i) = tmptheta(argmax(res(i,:)));
-end
+% bincenters = nan(1,nbins);
+% for i = 1:nbins,
+%   bincenters(i) = tmptheta(argmax(res(i,:)));
+% end
 
 % this seems to be what the centers correspond to
 bincenters = linspace(0,pi,nbins+1);
@@ -54,7 +54,7 @@ im1 = extractPatch(im1,...
   locy,locx,tracks(fly).theta(trackndx),patchsz);
 
 H = zeros(8,8,8);
-for yy = 1:8
+parfor yy = 1:8
   for xx = 1:8
     for oo = 1:8
       pfname = fullfile(bdir,'perframe',sprintf('%s_%02d_%02d_%d.mat',fname,yy,xx,oo));
@@ -84,31 +84,32 @@ hold on;
 axis off;
 
 colors = hsv(nbins);
+colors = colors([ (end/2+1):end 1:end/2],:);
 
 [nr,nc,~] = size(im1);
 maxv2 = max(H(:));
 
-patch = [-1 1 1 -1 1;wd wd -wd -wd wd];
+hogpatch = [wd wd -wd -wd wd;-psize psize psize -psize -psize]/2;
 h = [];
 for xi = 1:ceil(nc/psize),
-  cx = (psize/2 + 1 + (xi-1)*psize)*scale;
+  cx = (psize/2 + (xi-1)*psize)*scale+ 1 ;
   if cx+psize/2 > nc*scale,
     break;
   end
   for yi = 1:ceil(nr/psize),
-    cy = (psize/2 + 1 + (yi-1)*psize)*scale;
+    cy = (psize/2 + (yi-1)*psize)*scale+ 1 ;
     if cy+psize/2 > nr*scale,
       break;
     end
     
     for bini = 1:nbins,
-      tmp = bincenter(bini);
-      curpatch = [cos(tmp) -sin(tmp); sin(tmp) cos(tmp)]*patch;
-      xcurr = cx + curpatch*scale;
-      ycurr = cy + curpatch*scale;
-      h(yi,xi,bini) = patch(xcurr,ycurr,colors(bini,:),'LineStyle','none','FaceAlpha',min(1,F(yi,xi,bini)/maxv2));
+      tmp = bincenters(bini);
+      curpatch = [cos(tmp) -sin(tmp); sin(tmp) cos(tmp)]*hogpatch;
+      xcurr = cx + curpatch(1,:)*scale;
+      ycurr = cy + curpatch(2,:)*scale;
+      h(yi,xi,bini) = patch(xcurr,ycurr,colors(bini,:),'LineStyle','none','FaceAlpha',min(1,H(yi,xi,bini)/maxv2));
     end
     
   end
 end
-im = getFrame(hax);
+im = getframe(hax);

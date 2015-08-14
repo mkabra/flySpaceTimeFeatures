@@ -135,6 +135,7 @@ for ndx = fstart:fend
         params.rdy = 0;
       end
       params.theta = tracks(fly).theta(trackndx);
+      params.stationary = stationary;
       [Vx,Vy] = computeFlowBkgSup(curpatch,curpatch2,params);
     end
 %    [Vx,Vy,~] = optFlowLk(curpatch,curpatch2,4,[],optflowsig); % Using hard windows
