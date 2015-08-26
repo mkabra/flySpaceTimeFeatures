@@ -34,23 +34,27 @@ im1 =[im1 im1];
 
 %% Find Hog/HOF components.
 
-H = zeros(npatches,npatches,nbins);
-F = H;
+ncl = numel(Q.x.classifierStuff);
 
-cl = Q.x.classifierStuff.params;
-fnames = Q.x.classifierStuff.featureNames;
-for ndx = 1:numel(cl)
-  curf = fnames{cl(ndx).dim}{1};
-  val = cl(ndx).alpha;
-  prts = strsplit(curf,'_');
-  loc = str2double(prts(end-2:end));
-  if strcmp(curf(1:2),'hf')
-    H(loc(1),loc(2),loc(3))=H(loc(1),loc(2),loc(3))+val;
-  else
-    F(loc(1),loc(2),loc(3))=F(loc(1),loc(2),loc(3))+val;
+for clnum = 1:ncl
+  
+  H{clnum} = zeros(npatches,npatches,nbins);
+  F{clnum} = H{clnum};
+  
+  cl = Q.x.classifierStuff(clnum).params;
+  fnames = Q.x.classifierStuff(clnum).featureNames;
+  for ndx = 1:numel(cl)
+    curf = fnames{cl(ndx).dim}{1};
+    val = cl(ndx).alpha;
+    prts = strsplit(curf,'_');
+    loc = str2double(prts(end-2:end));
+    if strcmp(curf(1:2),'hf')
+      H{clnum}(loc(1),loc(2),loc(3))=H{clnum}(loc(1),loc(2),loc(3))+val;
+    else
+      F{clnum}(loc(1),loc(2),loc(3))=F{clnum}(loc(1),loc(2),loc(3))+val;
+    end
   end
 end
-
 %% Draw them
 
 % For HOG
@@ -65,71 +69,73 @@ dt = mean(diff(bincenters2));
 binedges2 = [bincenters2(1)-dt/2,(bincenters2(1:end-1)+bincenters2(2:end))/2,bincenters2(end)+dt/2];
 
 maxv = 3;
-
-hfig = figure;
-clf;
-hax = axes('Position',[0,0,1,1]);
-set(hfig,'Units','pixels','Position',get(0,'ScreenSize'));
-
-im1curr = im1;
-
-him = imshow(imresize(im1curr,scale));
-axis image;
-truesize;
-colormap gray;
-hold on;
-axis off;
-
-colors = hsv(nbins);
-
-[nr,nc,~] = size(im1);
-nc = nc/2;
-
-h = [];
-for xi = 1:ceil(nc/psize),
-  cx = (psize/2 + (xi-1)*psize)*scale + 1 ;
-  if cx+psize/2 > nc*scale,
-    break;
-  end
-  for yi = 1:ceil(nr/psize),
-    cy = (psize/2 + (yi-1)*psize)*scale + 1;
-    if cy+psize/2 > nr*scale,
+im = {};
+for clnum = 1:ncl
+  hfig = figure;
+  clf;
+  hax = axes('Position',[0,0,1,1]);
+  set(hfig,'Units','pixels','Position',get(0,'ScreenSize'));
+  
+  im1curr = im1;
+  
+  him = imshow(imresize(im1curr,scale));
+  axis image;
+  truesize;
+  colormap gray;
+  hold on;
+  axis off;
+  
+  colors = hsv(nbins);
+  
+  [nr,nc,~] = size(im1);
+  nc = nc/2;
+  
+  h = [];
+  for xi = 1:ceil(nc/psize),
+    cx = (psize/2 + (xi-1)*psize)*scale + 1 ;
+    if cx+psize/2 > nc*scale,
       break;
     end
-    
-    for bini = 1:nbins,
-      tmp = linspace(binedges2(bini),binedges2(bini+1),20);
-      xcurr = cx + [0,psize/2*cos(tmp),0]*scale;
-      ycurr = cy + [0,psize/2*sin(tmp),0]*scale;
-      h(yi,xi,bini) = patch(xcurr,ycurr,colors(bini,:),'LineStyle','none','FaceAlpha',min(1,F(yi,xi,bini)/maxv));
+    for yi = 1:ceil(nr/psize),
+      cy = (psize/2 + (yi-1)*psize)*scale + 1;
+      if cy+psize/2 > nr*scale,
+        break;
+      end
+      
+      for bini = 1:nbins,
+        tmp = linspace(binedges2(bini),binedges2(bini+1),20);
+        xcurr = cx + [0,psize/2*cos(tmp),0]*scale;
+        ycurr = cy + [0,psize/2*sin(tmp),0]*scale;
+        h(yi,xi,bini) = patch(xcurr,ycurr,colors(bini,:),'LineStyle','none','FaceAlpha',min(1,F{clnum}(yi,xi,bini)/maxv));
+      end
+      
     end
-    
   end
-end
-
-colors = hsv(nbins);
-colors = colors([ (end/2+1):end 1:end/2],:);
-hogpatch = [wd wd -wd -wd wd;-psize psize psize -psize -psize]/2;
-h = [];
-for xi = 1:ceil(nc/psize),
-  cx = (psize/2 + 1 + (xi-1)*psize)*scale;
-  if cx+psize/2 > nc*scale,
-    break;
-  end
-  for yi = 1:ceil(nr/psize),
-    cy = (psize/2 + 1 + (yi-1)*psize)*scale;
-    if cy+psize/2 > nr*scale,
+  
+  colors = hsv(nbins);
+  colors = colors([ (end/2+1):end 1:end/2],:);
+  hogpatch = [wd wd -wd -wd wd;-psize psize psize -psize -psize]/2;
+  h = [];
+  for xi = 1:ceil(nc/psize),
+    cx = (psize/2 + 1 + (xi-1)*psize)*scale;
+    if cx+psize/2 > nc*scale,
       break;
     end
-    
-    for bini = 1:nbins,
-      tmp = bincenters(bini);
-      curpatch = [cos(tmp) -sin(tmp); sin(tmp) cos(tmp)]*hogpatch;
-      xcurr = nc*scale + cx + curpatch(1,:)*scale;
-      ycurr = cy + curpatch(2,:)*scale;
-      h(yi,xi,bini) = patch(xcurr,ycurr,colors(bini,:),'LineStyle','none','FaceAlpha',min(1,H(yi,xi,bini)/maxv));
+    for yi = 1:ceil(nr/psize),
+      cy = (psize/2 + 1 + (yi-1)*psize)*scale;
+      if cy+psize/2 > nr*scale,
+        break;
+      end
+      
+      for bini = 1:nbins,
+        tmp = bincenters(bini);
+        curpatch = [cos(tmp) -sin(tmp); sin(tmp) cos(tmp)]*hogpatch;
+        xcurr = nc*scale + cx + curpatch(1,:)*scale;
+        ycurr = cy + curpatch(2,:)*scale;
+        h(yi,xi,bini) = patch(xcurr,ycurr,colors(bini,:),'LineStyle','none','FaceAlpha',min(1,H{clnum}(yi,xi,bini)/maxv));
+      end
+      
     end
-    
   end
+  im{clnum} = getframe(hax);
 end
-im = getframe(hax);

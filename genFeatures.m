@@ -62,6 +62,8 @@ elseif strcmp(method,'hs-brightness')
 elseif strcmp(method,'hs-sup') 
   % HS with flow in background and fly suppressed
   methodC = 3;
+elseif strcmp(method,'deep-sup')
+  methodC = 4;
 else
   error('Unknown Method')
 end
@@ -94,9 +96,7 @@ for ndx = fstart:fend
     end
     
     if methodC<3  || ~stationary || ndx==tracks(fly).endframe
-      % theta of earlier frame is really bad idea. 
-      % Shouldn't have used ever. But it'll hang around if 
-      % we ever want to compare to earlier methods.
+      % methodC<3 if for legacy mistake.
       curpatch2 = extractPatch(im(:,:, ndx-fstart + 2),...
         locy,locx,tracks(fly).theta(trackndx),patchsz);
     else
@@ -118,7 +118,7 @@ for ndx = fstart:fend
       uv = estimate_flow_interface(curpatch,curpatch2,method,{'max_warping_iters',2});
       Vx = uv(:,:,1);
       Vy = uv(:,:,2);
-    elseif methodC ==3
+    elseif methodC >=3
       curpatch = uint8(curpatch);
       curpatch2 = uint8(curpatch2);
       if ndx<tracks(fly).endframe
@@ -136,7 +136,13 @@ for ndx = fstart:fend
       end
       params.theta = tracks(fly).theta(trackndx);
       params.stationary = stationary;
-      [Vx,Vy] = computeFlowBkgSup(curpatch,curpatch2,params);
+      if methodC==3
+        [Vx,Vy] = computeFlowBkgSup(curpatch,curpatch2,params);
+      elseif methodC==4
+        [Vx,Vy] = computeDeepFlowBkgSup(curpatch,curpatch2,params);        
+      else
+        error('Undefined method');
+      end
     end
 %    [Vx,Vy,~] = optFlowLk(curpatch,curpatch2,4,[],optflowsig); % Using hard windows
     M = single(sqrt(Vx.^2 + Vy.^2));

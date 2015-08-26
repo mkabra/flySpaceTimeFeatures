@@ -6,5 +6,6 @@ if ~exist('gradientHist'),
    addpath(genpath('optflow_deqing'));
    addpath(genpath('toolbox'));
    addpath(genpath('opticalFlowLK'));
+   addpath('deepmatching');
 end
 

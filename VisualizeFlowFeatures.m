@@ -11,6 +11,8 @@ elseif strcmp(method,'hs-brightness')
   fname = 'hs_ff';
 elseif strcmp(method,'hs-sup')
   fname = 'hs_sup';
+elseif strcmp(method,'deep-sup')
+  fname = 'DS';
 else
   error('Unknown method %s',method);
 end
@@ -142,7 +144,7 @@ colors = hsv(nbins);
 
 [nr,nc,~] = size(im1);
 % maxv2 = max(F(:));
-maxv2 = 4;
+maxv2 = 2;
 
 h = [];
 for xi = 1:ceil(nc/psize),

@@ -456,3 +456,50 @@ ax(1) = subplot(1,3,1); imshowpair(A,B);
 ax(2) = subplot(1,3,2); imshow(flowToColor(kk,5));
 ax(3) = subplot(1,3,3); imagesc(dd); axis equal; axis image
 linkaxes(ax);
+
+
+%% debug deepmex and offline deepmatching
+im1curr = im1(:,:,1);
+im2curr = im2(:,:,1);
+scale = 4;
+tic;
+for ndx = 1:4,
+[uvo,uvso] = computeDeepFlow(im1curr,im2curr,scale);
+end
+toc
+tic;
+for ndx =1:4
+k = deepmex(single(im1curr),single(im2curr),80*scale,80*scale,round(80*scale*0.23));
+end
+toc
+A = k';
+A(:,1:4) = A(:,1:4)/scale;
+Vx = zeros(sz); 
+Vy = Vx; Vs = Vx;
+idx = sub2ind(sz,round(A(:,1)-0.0006)+1,round(A(:,2)-0.0006)+1);
+Vx(idx) = A(:,4)-A(:,2);
+Vy(idx) = A(:,3)-A(:,1);
+Vs(idx) = A(:,5);
+uv = cat(3,Vx,Vy);
+
+nc = 2; nr =1;
+figure; 
+subplot(nr,nc,1); imshow(flowToColor(uvo));
+subplot(nr,nc,2); imshow(flowToColor(uv));
+
+
+%% Make a short movie to test flow feature computation.
+
+Q = load('../walkMovies/SS03500_test/trx.mat');
+selflds = {'x','y','theta','a','b','timestamps',...
+  'x_mm','y_mm','theta_mm','a_mm','b_mm'};
+maxframe = 10000;
+for ndx = 1:numel(Q.trx)
+  for fnum = 1:numel(selflds)
+    Q.trx(ndx).(selflds{fnum}) = Q.trx(ndx).(selflds{fnum})(1:maxframe);
+  end
+  Q.trx(ndx).dt = Q.trx(ndx).dt(1:maxframe-1);
+  Q.trx(ndx).endframe = maxframe;
+  Q.trx(ndx).nframes = maxframe;
+end
+save('../walkMovies/SS03500_test/trx.mat','-struct','Q');

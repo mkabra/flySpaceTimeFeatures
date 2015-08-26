@@ -1,39 +1,15 @@
-function ftrs = computeFeaturesParallel(moviename,trackfilename,stationary,method)
+function ftrs = gatherCompiledFeatures(savename,numblocks,expdir,stationary,flowname)
 
-if nargin<3,
-  stationary = false;
+allftrs = {};
+for ndx = 1:numblocks
+  Q = load(sprintf('%s_%d.mat',savename,ndx));
+  allftrs{ndx} = Q.curftrs;
+  
 end
-
-tracks = load(trackfilename);
-tracks = tracks.trx;
-
-[readfcn,nframes,fid,headerinfo] = get_readframe_fcn(moviename);
-fclose(fid);
-
-blocksize = 500;
-
-minfirst = min([tracks.firstframe]);
-maxlast = max([tracks.endframe]);
-nframes = maxlast-minfirst+1;
-nblocks = ceil((nframes-1)/blocksize);
-
-allftrs ={};
-
-% compute features in parallel for different intervals of frames.
-parfor ndx = 1:nblocks
-% for ndx = 1:nblocks
-  [readfcn,nframes,fid,headerinfo] = get_readframe_fcn(moviename);
-  fstart = minfirst + (ndx-1)*blocksize;
-  fend = min(maxlast,ndx*blocksize);
-  tic;
-  allftrs{ndx} = genFeatures(readfcn,headerinfo,fstart,fend,tracks,stationary,method);
-  telapsed = toc;
-  fclose(fid);
-  fprintf('.');
-  if mod(ndx,20)==0, fprintf('\n%.2f\n',telapsed); end
-end
-
 ff = fields(allftrs{1});
+
+tt = load(fullfile(expdir,'trx.mat'));
+tracks = tt.trx;
 
 % Initialize the struct for features of all the frames
 ftrs = struct;
@@ -62,3 +38,5 @@ for fnum = 1:numel(ff)
     end
   end
 end
+
+extractPerframeFtrs(fullfile(expdir,'perframe'),ftrs,stationary,flowname);
