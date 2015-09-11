@@ -6,14 +6,16 @@ end
 
 %% parameters
 
-npatches = 8;
-psize = 10; % patch size for hog/hof
-nbins = 8; % number of bins in hog/hof
-patchsz = psize*npatches;
+params = getParams;
+npatches = params.npatches;
+psize = params.psize;
+nbins = params.nbins; 
+patchsz = params.patchsz;
 
-optflowwinsig = 3;
-optflowsig = 2;
-optreliability = 1e-4;
+optflowwinsig = params.optflowwinsig ;
+optflowsig = params.optflowsig ;
+optreliability = params.optreliability ;
+
 
 %% Read the images into a buffer.
 
@@ -38,7 +40,7 @@ tread =toc;
 %% preallocate hogftrs and flowftrs
 
 nflies = numel(tracks);
-ftrsz = [npatches npatches 8]; 
+ftrsz = [npatches npatches nbins]; 
 
 hogftrs = cell(1,nflies);
 flowftrs = cell(1,nflies);
@@ -70,13 +72,13 @@ end
 
 % For background suppression
 params = struct;
-bwimg = zeros(patchsz,patchsz);
-ctr = [ceil( (patchsz+1)/2),ceil( (patchsz+1)/2)];
-bwimg(ctr(1),ctr(2))=1;
-dimg = bwdist(bwimg,'euclidean');
-[xx,yy]= meshgrid(1:patchsz,1:patchsz);
-aimg = atan2(-(yy-ctr(1)),-(xx-ctr(2)));
-params.dimg = dimg; params.aimg = aimg;
+% bwimg = zeros(patchsz,patchsz);
+% ctr = [ceil( (patchsz+1)/2),ceil( (patchsz+1)/2)];
+% bwimg(ctr(1),ctr(2))=1;
+% dimg = bwdist(bwimg,'euclidean');
+% [xx,yy]= meshgrid(1:patchsz,1:patchsz);
+% aimg = atan2(-(yy-ctr(1)),-(xx-ctr(2)));
+% params.dimg = dimg; params.aimg = aimg;
 
 for ndx = fstart:fend
   

@@ -19,11 +19,12 @@ trackfilename = fullfile(bdir,'trx.mat');
 
 %% params
 
-scale = 6;
-npatches = 8;
-psize = 10; % patch size for hog/hof
-nbins = 8; % number of bins in hog/hof
-patchsz = psize*npatches;
+params = getParams;
+npatches = params.npatches;
+psize = params.psize;
+nbins = params.nbins; 
+patchsz = params.patchsz;
+scale = params.scale;
 
 % this seems to be what the centers correspond to
 bincenters = linspace(0,pi,nbins+1);
@@ -60,10 +61,10 @@ for fno = fstart:fend+1
   count = count+1;
 end
 
-F = zeros(8,8,8,2*seqlen+1);
-parfor yy = 1:8
-  for xx = 1:8
-    for oo = 1:8
+F = zeros(npatches,npatches,nbins,2*seqlen+1);
+parfor yy = 1:npatches
+  for xx = 1:npatches
+    for oo = 1:nbins
       pfname = fullfile(bdir,'perframe',sprintf('%s_%02d_%02d_%d.mat',fname,yy,xx,oo));
       q = load(pfname);
       trackndx = fnum - tracks(fly).firstframe + 1;

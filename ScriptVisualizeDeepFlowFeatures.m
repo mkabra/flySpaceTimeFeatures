@@ -1,17 +1,28 @@
-nbins = 8;
-psize = 10;
-npatches = 8;
-optflowwinsig = 3;
-optflowsig = 2;
-optreliability = 1e-4;
-patchsz = psize*npatches;
+% nbins = 8;
+% psize = 10;
+% npatches = 8;
+% optflowwinsig = 3;
+% optflowsig = 2;
+% optreliability = 1e-4;
+% patchsz = psize*npatches;
+
+params = getParams;
+npatches = params.npatches;
+psize = params.psize;
+nbins = params.nbins; 
+patchsz = params.patchsz;
+
+optflowwinsig = params.optflowwinsig ;
+optflowsig = params.optflowsig ;
+optreliability = params.optreliability ;
+scale = params.scale;
 
 maxflow = 5;
 fly_thres = 90;
-flow_thres = sqrt(2)/4;
-scale = 6;
+flow_thres = 1; 
+% error is double when we compute flow in half the size
 
-makeVideo = true;
+makeVideo = false;
 
 % expdir = '../mated10_20140714T131113';
 % frames = 10900 +(1:200);
@@ -23,7 +34,8 @@ makeVideo = true;
 expdir = '/home/mayank/Work/FlySpaceTime/walkMovies/SS03500';
 fly = 1;
 % frames = 10200 + (1:100);
-frames = 1:200;
+% frames = 1:200;
+frames = 7320:7330;
 % frames = 735:780;
 % fly = 3;
 % frames = 1886:1888;
@@ -115,11 +127,11 @@ colorpos = [1,0,0];
 colorneg = [0,.3,1];
 
 colors = hsv(nbins);
-sz = size(im1);
+sz = round(size(im1)/2);
 bwimg = zeros(sz(1),sz(2));
 ctr = [ceil( (sz(1)+1)/2),ceil( (sz(2)+1)/2)];
 bwimg(ctr(1),ctr(2))=1;
-dimg = bwdist(bwimg,'euclidean');
+dimg = bwdist(bwimg,'euclidean')*2;
 [xx,yy]= meshgrid(1:sz(2),1:sz(1));
 aimg = atan2(-(yy-ctr(1)),-(xx-ctr(2)));
 
@@ -130,7 +142,7 @@ if makeVideo
   open(vid);
 end
 
-dd_err = dimg/patchsz;
+dd_err = dimg/patchsz*2;
 % There is some flow towards the center in certain cases.
 % d_err is for that.
 
@@ -140,12 +152,12 @@ for t = t0:t1,
   im2curr = im2(:,:,t-t0+1);
 
   imsz = size(im1curr);
-  pairimg = zeros(2*imsz(1),3*imsz(2),3);
+  pairimg = zeros(3*imsz(1),3*imsz(2),3);
   ttimg = [];
-  tt(:,:,1) = im2curr;
-  tt(:,:,2) = im1curr;
-  tt(:,:,3) = im2curr;
-  pairimg(1:imsz(1),:,:) = repmat(tt,[1 3 1]);
+  ttimg(:,:,1) = im2curr;
+  ttimg(:,:,2) = im1curr;
+  ttimg(:,:,3) = im2curr;
+  pairimg(1:imsz(1),:,:) = repmat(ttimg,[1 3 1]);
   
   [uv,Vs] = computeDeepFlow(im1curr,im2curr);
   [xx,yy] = meshgrid((-5:5),(-5:5));
@@ -156,13 +168,18 @@ for t = t0:t1,
   im1sm = imresize(im1curr,0.5);
   im2sm = imresize(im2curr,0.5);
   
-  uvdeep = imresize(uv,2);
+  uvdeep = uv;
   uvold = estimate_flow_interface(im1sm,im2sm,'hs-brightness',...
-    {'max_warping_iter',2});
-  uv(selpx)=uvold(selpx);
-  uv = imresize(uv,2);
+    {'max_warping_iters',2});
+  uvold = uvold*2;
+  for ndx = 1:2
+    tt = uv(:,:,ndx);
+    ttold = uvold(:,:,ndx);
+    tt(selpx) = ttold(selpx);
+    uv(:,:,ndx) = tt;
+  end
   uvorig = uv;
-  uvorigo = imresize(uvold,2);
+  uvorigo = uvold;
   
   % BKG flow
   cdx = dx(t-t0+1);
@@ -195,17 +212,23 @@ for t = t0:t1,
     tt( dd<(dd_err+flow_thres)) = 0;
     uv(:,:,ndx) = tt;
     tt = uvo(:,:,ndx);
-    tt( dd<(dd_err+flow_thres)) = 0;
+    tt( ddo<(dd_err+flow_thres)) = 0;
     uvo(:,:,ndx) = tt;
     tt = uvd(:,:,ndx);
-    tt( dd<(dd_err+flow_thres)) = 0;
+    tt( ddd<(dd_err+flow_thres)) = 0;
     uvd(:,:,ndx) = tt;
   end
-  uvall = uv; uvallo = uvo;uvalld = uvd;
+  uvall = imresize(uv,2); 
+  uvallo = imresize(uvo,2);
+  uvalld = imresize(uvd,2);
   
   pairimg(imsz(1)+(1:imsz(1)),(1:imsz(2)),:) = flowToColor(uvall,maxflow);
   pairimg(imsz(1)+(1:imsz(1)),imsz(2)+(1:imsz(2)),:) = flowToColor(uvalld,maxflow);
   pairimg(imsz(1)+(1:imsz(1)),2*imsz(2)+(1:imsz(2)),:) = flowToColor(uvallo,maxflow);
+
+  pairimg(2*imsz(1)+(1:imsz(1)),(1:imsz(2)),:) = flowToColor(imresize(uvorig,2),maxflow);
+  pairimg(2*imsz(1)+(1:imsz(1)),imsz(2)+(1:imsz(2)),:) = flowToColor(imresize(uvdeep,2),maxflow);
+  pairimg(2*imsz(1)+(1:imsz(1)),2*imsz(2)+(1:imsz(2)),:) = flowToColor(imresize(uvorigo,2),maxflow);
 
   pairimg = uint8(pairimg);
   pairimg = imresize(pairimg,scale);

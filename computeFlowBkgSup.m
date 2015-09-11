@@ -5,11 +5,12 @@ function [Vx,Vy] = computeFlowBkgSup(im1curr,im2curr,params)
 %There is some flow towards the center that can't be estimated
 % properly. The flow increases as we go away from the center.
 % d_err is to account for that.
-dd_err = params.dimg/80;
-flow_thres = sqrt(2)/3;
+gparams = getParams;
+dd_err = params.dimg/gparams.patchsz;
+flow_thres = gparams.flow_thres;
 
 uv = estimate_flow_interface(im1curr,im2curr,...
-  'hs-brightness',{'max_warping_iters',2});
+  'hs-brightness',{'max_warping_iters',gparams.warping_iters});
 
 if ~params.stationary,
   Vx = uv(:,:,1);

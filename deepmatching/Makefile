@@ -12,8 +12,8 @@ endif
 LAPACKCFLAGS=-Dinteger=int $(BLAS_THREADING)
 STATICLAPACKLDFLAGS=-fPIC -Wall -g -fopenmp -static -static-libstdc++ /home/lear/douze/tmp/jpeg-6b/libjpeg.a /usr/lib64/libpng.a /usr/lib64/libz.a /usr/lib64/libblas.a /usr/lib/gcc/x86_64-redhat-linux/4.9.2/libgfortran.a /usr/lib/gcc/x86_64-redhat-linux/4.9.2/libquadmath.a # statically linked version
 
-CFLAGS= -fPIC -Wall -g -std=c++11 $(LAPACKCFLAGS) -fopenmp -DUSE_OPENMP -O3
-LDFLAGS=-fPIC -Wall -g -ljpeg -lpng -fopenmp 
+CFLAGS= -fPIC -Wall -g -std=c++11 $(LAPACKCFLAGS) -fopenmp -DUSE_OPENMP -O3 -DNOMEX
+LDFLAGS=-fPIC -Wall -g -ljpeg -lpng -fopenmp  -DNOMEX
 
 SOURCES := $(shell find . -name '*.cpp')
 OBJ := $(SOURCES:%.cpp=%.o)

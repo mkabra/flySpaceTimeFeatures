@@ -23,7 +23,7 @@ allftrs ={};
 
 % compute features in parallel for different intervals of frames.
 % parfor ndx = 1:nblocks
-for ndx = 21:40
+for ndx = 41:80
   [readfcn,nframes,fid,headerinfo] = get_readframe_fcn(moviename);
   fstart = minfirst + (ndx-1)*blocksize;
   fend = min(maxlast,ndx*blocksize);

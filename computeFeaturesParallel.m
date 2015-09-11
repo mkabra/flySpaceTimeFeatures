@@ -10,7 +10,8 @@ tracks = tracks.trx;
 [readfcn,nframes,fid,headerinfo] = get_readframe_fcn(moviename);
 fclose(fid);
 
-blocksize = 500;
+params = getParams;
+blocksize = params.blocksize;
 
 minfirst = min([tracks.firstframe]);
 maxlast = max([tracks.endframe]);

@@ -3,10 +3,13 @@ function makeClip(bdir,fly,fstart,fend)
 moviename = fullfile(bdir,'movie.ufmf');
 trackfilename = fullfile(bdir,'trx.mat');
 [~,expname] = fileparts(bdir);
-psize = 10;
-npatches = 8;
-scale = 6;
-patchsz = psize*npatches;
+params = getParams;
+npatches = params.npatches;
+psize = params.psize;
+nbins = params.nbins; 
+patchsz = params.patchsz;
+scale = params.scale;
+
 
 tracks = load(trackfilename);
 tracks = tracks.trx;

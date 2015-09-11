@@ -5,32 +5,15 @@ moviename = fullfile(bdir,'movie.ufmf');
 trackfilename = fullfile(bdir,'trx.mat');
 
 fname = 'hf';
-wd = 0.5;
 %% params
-
-scale = 6;
-npatches = 8;
-psize = 10; % patch size for hog/hof
-nbins = 8; % number of bins in hog/hof
-patchsz = psize*npatches;
+params = getParams;
+psize = params.psize;
+nbins = params.nbins; 
+patchsz = params.patchsz;
+npatches = params.npatches;
+wd = params.wd;
 
 %% compute the bins
-
-% tmptheta = (0:179)*pi/180;
-% res = nan(nbins,numel(tmptheta));
-% m = single(ones(10,10));
-% o = single(zeros(10,10));
-% for i = 1:numel(tmptheta),
-% %   fprintf('i = %d, theta = %f\n',i,tmptheta(i));
-%   o(:) = single(tmptheta(i));
-%   rescurr = gradientHist(m,o,1,nbins,1);
-%   res(:,i) = rescurr(1,1,:);
-% end
-
-% bincenters = nan(1,nbins);
-% for i = 1:nbins,
-%   bincenters(i) = tmptheta(argmax(res(i,:)));
-% end
 
 % this seems to be what the centers correspond to
 bincenters = linspace(0,pi,nbins+1);
@@ -53,10 +36,10 @@ locx = round(tracks(fly).x(trackndx));
 im1 = extractPatch(im1,...
   locy,locx,tracks(fly).theta(trackndx),patchsz);
 
-H = zeros(8,8,8);
-parfor yy = 1:8
-  for xx = 1:8
-    for oo = 1:8
+H = zeros(npatches,npatches,nbins);
+parfor yy = 1:npatches
+  for xx = 1:npatches
+    for oo = 1:nbins
       pfname = fullfile(bdir,'perframe',sprintf('%s_%02d_%02d_%d.mat',fname,yy,xx,oo));
       q = load(pfname);
       trackndx = fnum - tracks(fly).firstframe + 1;

@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 #include "std.h"
 #include "conv.h"
 #include "maxfilter.h"
-#define NOMEX
 #ifdef NOMEX
 #include <time.h>
 #else

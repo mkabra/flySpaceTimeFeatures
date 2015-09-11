@@ -1,15 +1,25 @@
-nbins = 8;
-psize = 10;
-npatches = 8;
-optflowwinsig = 3;
-optflowsig = 2;
-optreliability = 1e-4;
-patchsz = psize*npatches;
+% nbins = 8;
+% psize = 10;
+% npatches = 8;
+% optflowwinsig = 3;
+% optflowsig = 2;
+% optreliability = 1e-4;
+% patchsz = psize*npatches;
+
+params = getParams;
+npatches = params.npatches;
+psize = params.psize;
+nbins = params.nbins; 
+patchsz = params.patchsz;
+scale = params.scale;
+
+optflowwinsig = params.optflowwinsig ;
+optflowsig = params.optflowsig ;
+optreliability = params.optreliability ;
 
 maxflow = 5;
 fly_thres = 90;
-flow_thres = sqrt(2)/4;
-scale = 6;
+flow_thres = params.flow_thres;
 
 makeVideo = false;
 

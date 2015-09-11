@@ -25,24 +25,28 @@ expdir = '/home/mayank/Work/FlySpaceTime/walkMovies/SS03500_test';
 ftrname = 'DSs';
 % fly = 2;
 % frames = 51:200;
-fly = 1;
-frames = 6835:6850;
-selftrs = [6 7 1; 2 4 1; 6 3 1];
-savefigure = true;
+fly = 4;
+frames = 3342:3353;
+% frames = 3532:3543;
+% selftrs = [6 7 1; 2 4 1; 6 3 1];
+selftrs = [3 7 1; 6 5 1; 3 3 1];
+savefigure = false;
 
 %% params.
-nbins = 8;
-psize = 10;
-npatches = 8;
-optflowwinsig = 3;
-optflowsig = 2;
-optreliability = 1e-4;
-patchsz = psize*npatches;
+params = getParams;
+npatches = params.npatches;
+psize = params.psize;
+nbins = params.nbins; 
+patchsz = params.patchsz;
+scale = params.scale;
+
+optflowwinsig = params.optflowwinsig ;
+optflowsig = params.optflowsig ;
+optreliability = params.optreliability ;
 
 maxflow = 5;
 fly_thres = 90;
 flow_thres = sqrt(2)/4;
-scale = 6;
 
 
 [~,expname] = fileparts(expdir);

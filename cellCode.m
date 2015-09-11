@@ -503,3 +503,34 @@ for ndx = 1:numel(Q.trx)
   Q.trx(ndx).nframes = maxframe;
 end
 save('../walkMovies/SS03500_test/trx.mat','-struct','Q');
+
+%%
+
+figure;
+ax = [];
+nr = 3; nc = 3;
+ax(1) = subplot(nr,nc,1); 
+imshow(flowToColor(uvdeep,4));
+ax(2) = subplot(nr,nc,2); 
+imshow(flowToColor(uvorigo,4));
+ax(3) = subplot(nr,nc,3); 
+imshow(flowToColor(uvorig,4));
+jj = cat(3,rotflowu,rotflowv);
+jj(:,:,1) = jj(:,:,1)+cdx;
+jj(:,:,2) = jj(:,:,2)+cdy;
+ax(4) = subplot(nr,nc,4);
+imagesc(dd1d); axis image
+ax(5) = subplot(nr,nc,5);
+imagesc(dd1o); axis image
+ax(6) = subplot(nr,nc,6);
+imagesc(dd1); axis image
+ax(7) = subplot(nr,nc,7);
+imshow(flowToColor(uvd,4));
+ax(8) = subplot(nr,nc,8);
+imshow(flowToColor(uvo,4));
+ax(9) = subplot(nr,nc,9);
+imshow(flowToColor(uv,4));
+linkaxes(ax);
+
+
+linkaxes(ax);

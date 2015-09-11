@@ -18,11 +18,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 #include "std.h"
 #include "omp.h"
 #include "maxfilter.h"
-//#include "mex.h"
-//#include "blas.h"
-//#include "lapack.h"
+#ifdef NOMEX
 #include <time.h>
+#else
+#include "mex.h"
+#include "blas.h"
+#include "lapack.h"
+#endif
 
+#ifdef NOMEX
 extern "C" {
 #include <immintrin.h>
 #define integer int
@@ -30,7 +34,7 @@ extern "C" {
 extern int saxpy_(integer *n, real *sa, real *sx, integer *incx, real *sy, integer *incy);
 extern int sscal_(integer *n, real *sa, real *sx, integer *incx);
 }
-
+#endif
 
 static inline void fast_set_val( float * __restrict__ a, long d, const float val) {
   if(val) {
@@ -57,17 +61,22 @@ static inline void fast_set_vec( float * __restrict__ dest,
 }
 static inline void fast_add_vec( float * __restrict__ dest,
                                  const float * __restrict__ add, int din, float mul) {
-//  ptrdiff_t d;
-//  d = (ptrdiff_t)din;
+#ifndef NOMEX
+  ptrdiff_t d;
+  d = (ptrdiff_t)din;
+#else
   int d = din;
+#endif
   if(d<=4) {
     int j;
     for(j=0; j<d; j++)
       dest[j] += mul*add[j];
   } else {
-    //ptrdiff_t inc = 1;
-//    saxpy_( &d, &mul, (float*)add, &inc, (float*)dest, &inc );
+#ifndef NOMEX
+    ptrdiff_t inc = 1;
+#else
     int inc = 1;
+#endif
     saxpy_( &d, &mul, (float*)add, &inc, (float*)dest, &inc );
   }
 }
@@ -461,11 +470,13 @@ inline float sum_array_f(const float* a, int n) {
 }
 
 
+#ifdef NOMEX
 extern "C" {
 int sgemm_(char *transa, char *transb, integer *m, integer *
            n, integer *k, float *alpha, float *a, integer *lda, float *b, integer *
            ldb, float *beta, float *c, integer *ldc);
 }
+#endif
 
 /* matrix-matrix multiplication with several SGEMM (each is single-threaded)
    res = dot(patches, convolved_hog)
@@ -493,23 +504,27 @@ void _dotprod( float_image* patches, float_layers* convolved_hog, float_layers* 
     long start = l*threadP;
     long end   = MIN(P,(l+1)*threadP);
     int np = int(end - start);
-//    ptrdiff_t ppp_np,ppp_npix,ppp_nh;
-//    ppp_np = (ptrdiff_t)np;
-//    ppp_npix = (ptrdiff_t)npix; 
-//    ppp_nh = (ptrdiff_t)nh;
+    #ifndef NOMEX
+    ptrdiff_t ppp_np,ppp_npix,ppp_nh;
+    ppp_np = (ptrdiff_t)np;
+    ppp_npix = (ptrdiff_t)npix; 
+    ppp_nh = (ptrdiff_t)nh;
+    #endif
     float* p = patches->pixels + nh*start;
     float* r = res->pixels + npix*start;
     
     // blas fast matrix-matrix product
     char T='n'; float alpha = 1, beta = 0;
     //mexPrintf("before sgemm_\n");
-//    sgemm_( &T, &T, &ppp_npix, &ppp_np, &ppp_nh, &alpha, 
-//            convolved_hog->pixels, &ppp_npix, 
-//            p, &ppp_nh, &beta, r, &ppp_npix);
+    #ifndef NOMEX
+    sgemm_( &T, &T, &ppp_npix, &ppp_np, &ppp_nh, &alpha, 
+            convolved_hog->pixels, &ppp_npix, 
+            p, &ppp_nh, &beta, r, &ppp_npix);
+    #else
     sgemm_( &T, &T, &npix, &np, &nh, &alpha, 
             convolved_hog->pixels, &npix, 
             p, &nh, &beta, r, &npix);
-    //mexPrintf("after sgemm_\n");
+   #endif
   }
 }
 
@@ -536,12 +551,14 @@ void transpose_matrix(const float_image* A, float_image* B, int nt) {
             transpose_scalar_block(&pA[i*m +j], &pB[j*n + i], m, n, MIN(block_size, n-i), MIN(block_size, m-j));
 }
 
+#ifdef NOMEX
 extern "C" {
 int sgemv_(char *transa, integer *m, integer * n, 
            float *alpha, float *a, integer *lda, 
            float *b, integer * ldb, float *beta, 
            float *c, integer * ldc);
 }
+#endif
 
 /* convolution of each patch within a local neighborhood
     ngh_rad = max translation 
@@ -571,7 +588,6 @@ void _dotprod_ngh_rad_T( int_cube* grid, float_image* patches, int ngh_rad,
   
   char T='t'; float alpha=1, beta=0; int one=1;
   
-  //mexPrintf("before pragma\n");
   #if defined(USE_OPENMP)
   #pragma omp parallel for num_threads(n_thread)
   #endif
@@ -591,16 +607,17 @@ void _dotprod_ngh_rad_T( int_cube* grid, float_image* patches, int ngh_rad,
       float* c = convolved_hog->pixels + (left + top*tx)*nh;
       
       // blas fast matrix-vector product
- //     mexPrintf("before sgemv_\n");
-//      ptrdiff_t ppp_nh,ppp_res_tx,ppp_one;
-//      ppp_nh = (ptrdiff_t)nh;
-//      ppp_res_tx = (ptrdiff_t)res_tx;
-//      ppp_one = (ptrdiff_t)one;
-//      sgemv_( &T, &ppp_nh, &ppp_res_tx, &alpha, c + j*tx*nh, &ppp_nh, 
-//              p, &ppp_one, &beta, r + j*res_tx, &ppp_one);
-//      mexPrintf("after sgemv_\n");
+      #ifndef NOMEX
+      ptrdiff_t ppp_nh,ppp_res_tx,ppp_one;
+      ppp_nh = (ptrdiff_t)nh;
+      ppp_res_tx = (ptrdiff_t)res_tx;
+      ppp_one = (ptrdiff_t)one;
+      sgemv_( &T, &ppp_nh, &ppp_res_tx, &alpha, c + j*tx*nh, &ppp_nh, 
+              p, &ppp_one, &beta, r + j*res_tx, &ppp_one);
+      #else
       sgemv_( &T, &nh, &res_tx, &alpha, c + j*tx*nh, &nh, 
               p, &one, &beta, r + j*res_tx, &one);
+      #endif
     }
   }
 }
@@ -763,12 +780,16 @@ void fastconv( float_image* patches, float_layers* hog, int patch_size, int ngh_
     
     // multi-threaded fast matrix product
     //mexPrintf("before dotprodnghrad\n");
+    #ifdef NOMEX
     clock_t t;
     t = clock();
+    #endif
     _dotprod_ngh_rad_T( &fgrid, patches, ngh_rad, &convolved_hog_T, &res->res_map, offsets, nt );
+    #ifdef NOMEX
     t = clock()-t;
     double time_taken = ((double)t)/CLOCKS_PER_SEC;
     printf("dotprod took %f seconds\n",time_taken);
+    #endif
     free(fgrid.pixels);
     free(convolved_hog_T.pixels);
     //hash_image(offsets)

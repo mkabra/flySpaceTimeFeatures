@@ -2,14 +2,15 @@ function im = VisualizeClassifier(jabfile)
 
 
 %% params.
+params = getParams;
+npatches = params.npatches;
+psize = params.psize;
+nbins = params.nbins; 
+patchsz = params.patchsz;
+scale = params.scale;
 
-psize = 10; % patch size for hog/hof
-nbins = 8; % number of bins in hog/hof
-scale = 6;
-npatches = 8;
-patchsz = psize*npatches;
+wd = params.wd;
 
-wd = 0.5;
 %% load an example fly.
 
 Q = load(jabfile,'-mat');

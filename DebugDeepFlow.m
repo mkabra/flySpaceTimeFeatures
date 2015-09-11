@@ -1,10 +1,13 @@
-nbins = 8;
-psize = 10;
-npatches = 8;
-optflowwinsig = 3;
-optflowsig = 2;
-optreliability = 1e-4;
-patchsz = psize*npatches;
+params = getParams;
+npatches = params.npatches;
+psize = params.psize;
+nbins = params.nbins; 
+patchsz = params.patchsz;
+
+optflowwinsig = params.optflowwinsig ;
+optflowsig = params.optflowsig ;
+optreliability = params.optreliability ;
+
 
 maxflow = 5;
 fly_thres = 90;

@@ -1,0 +1,238 @@
+<deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
+  <configuration build-checksum="2169944608" file="/home/mayank/Work/FlySpaceTime/code/computeFeaturesCompiled.prj" location="/home/mayank/Work/FlySpaceTime/code" name="computeFeaturesCompiled" preferred-package-location="/home/mayank/Work/FlySpaceTime/code/computeFeaturesCompiled/for_redistribution" preferred-package-type="package.type.install" target="target.ezdeploy.standalone" target-name="Application Compiler">
+    <param.appname>computeFeaturesCompiled</param.appname>
+    <param.icon />
+    <param.icons />
+    <param.version>1.0</param.version>
+    <param.authnamewatermark />
+    <param.email />
+    <param.company />
+    <param.summary />
+    <param.description />
+    <param.screenshot />
+    <param.guid />
+    <param.net.saved.interface />
+    <param.installpath.string>/computeFeaturesCompiled/</param.installpath.string>
+    <param.installpath.combo>option.installpath.user</param.installpath.combo>
+    <param.logo />
+    <param.install.notes />
+    <param.intermediate>${PROJECT_ROOT}/computeFeaturesCompiled/for_testing</param.intermediate>
+    <param.files.only>${PROJECT_ROOT}/computeFeaturesCompiled/for_redistribution_files_only</param.files.only>
+    <param.output>${PROJECT_ROOT}/computeFeaturesCompiled/for_redistribution</param.output>
+    <param.enable.clean.build>false</param.enable.clean.build>
+    <param.user.defined.mcr.options />
+    <param.embed.ctf>true</param.embed.ctf>
+    <param.target.type>subtarget.standalone</param.target.type>
+    <param.support.packages />
+    <param.required.mcr.products>
+      <item>35000</item>
+      <item>35010</item>
+      <item>35001</item>
+    </param.required.mcr.products>
+    <param.web.mcr>true</param.web.mcr>
+    <param.package.mcr>false</param.package.mcr>
+    <param.no.mcr>false</param.no.mcr>
+    <param.web.mcr.name>MyAppInstaller_web</param.web.mcr.name>
+    <param.package.mcr.name>MyAppInstaller_mcr</param.package.mcr.name>
+    <param.no.mcr.name>MyAppInstaller_app</param.no.mcr.name>
+    <param.windows.command.prompt>false</param.windows.command.prompt>
+    <param.create.log>false</param.create.log>
+    <param.log.file />
+    <unset>
+      <param.icon />
+      <param.icons />
+      <param.version />
+      <param.authnamewatermark />
+      <param.email />
+      <param.company />
+      <param.summary />
+      <param.description />
+      <param.screenshot />
+      <param.guid />
+      <param.net.saved.interface />
+      <param.installpath.string />
+      <param.installpath.combo />
+      <param.logo />
+      <param.intermediate />
+      <param.files.only />
+      <param.output />
+      <param.enable.clean.build />
+      <param.user.defined.mcr.options />
+      <param.embed.ctf />
+      <param.target.type />
+      <param.support.packages />
+      <param.web.mcr />
+      <param.package.mcr />
+      <param.no.mcr />
+      <param.web.mcr.name />
+      <param.package.mcr.name />
+      <param.no.mcr.name />
+      <param.windows.command.prompt />
+      <param.create.log />
+      <param.log.file />
+    </unset>
+    <fileset.main>
+      <file>${PROJECT_ROOT}/computeFeaturesCompiled.m</file>
+    </fileset.main>
+    <fileset.resources>
+      <file>${PROJECT_ROOT}/computeDeepFlow.m</file>
+      <file>${PROJECT_ROOT}/computeDeepFlowBkgSup.m</file>
+      <file>${PROJECT_ROOT}/computeFlowBkgSup.m</file>
+      <file>${PROJECT_ROOT}/deepmatching/deepmex.mexa64</file>
+      <file>${PROJECT_ROOT}/extractPatch.m</file>
+      <file>${PROJECT_ROOT}/filehandling/GetPCShortcutFileActualPath.m</file>
+      <file>${PROJECT_ROOT}/filehandling/fmf_get_datatype.m</file>
+      <file>${PROJECT_ROOT}/filehandling/fmf_read_frame.m</file>
+      <file>${PROJECT_ROOT}/filehandling/fmf_read_header.m</file>
+      <file>${PROJECT_ROOT}/filehandling/fmfreadframe.m</file>
+      <file>${PROJECT_ROOT}/filehandling/get_readframe_fcn.m</file>
+      <file>${PROJECT_ROOT}/filehandling/mmf_get_readframe_fcn.m</file>
+      <file>${PROJECT_ROOT}/filehandling/mmf_read_frame.m</file>
+      <file>${PROJECT_ROOT}/filehandling/mmf_read_header.m</file>
+      <file>${PROJECT_ROOT}/filehandling/mmf_read_mean.m</file>
+      <file>${PROJECT_ROOT}/filehandling/parsejpg8.mexa64</file>
+      <file>${PROJECT_ROOT}/filehandling/r_readseqinfo.m</file>
+      <file>${PROJECT_ROOT}/filehandling/read_seq_frame.m</file>
+      <file>${PROJECT_ROOT}/filehandling/sbfmf_read_frame.m</file>
+      <file>${PROJECT_ROOT}/filehandling/sbfmf_read_header.m</file>
+      <file>${PROJECT_ROOT}/filehandling/sbfmfreadframe.m</file>
+      <file>${PROJECT_ROOT}/filehandling/ufmf_get_readframe_fcn.m</file>
+      <file>${PROJECT_ROOT}/filehandling/ufmf_read_frame.m</file>
+      <file>${PROJECT_ROOT}/filehandling/ufmf_read_header.m</file>
+      <file>${PROJECT_ROOT}/filehandling/ufmf_read_mean.m</file>
+      <file>${PROJECT_ROOT}/filehandling/videoioreadframe.m</file>
+      <file>${PROJECT_ROOT}/genFeatures.m</file>
+      <file>${PROJECT_ROOT}/getParams.m</file>
+      <file>${PROJECT_ROOT}/misc/dtypechar2matlabclass.m</file>
+      <file>${PROJECT_ROOT}/misc/isabspath.m</file>
+      <file>${PROJECT_ROOT}/misc/myparse.m</file>
+      <file>${PROJECT_ROOT}/misc/padgrab.m</file>
+      <file>${PROJECT_ROOT}/misc/splitext.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@alt_ba_optical_flow/alt_ba_optical_flow.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@alt_ba_optical_flow/compute_flow.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@alt_ba_optical_flow/compute_flow_base.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@alt_ba_optical_flow/display.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@alt_ba_optical_flow/evalaute_new_log_posterior.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@alt_ba_optical_flow/evaluate_log_posterior.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@alt_ba_optical_flow/flow_operator.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@alt_ba_optical_flow/parse_input_parameter.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@alt_ba_optical_flow/subsasgn.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@alt_ba_optical_flow/subsref.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@ba_optical_flow/ba_optical_flow.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@ba_optical_flow/compute_flow.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@ba_optical_flow/compute_flow_base.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@ba_optical_flow/display.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@ba_optical_flow/estimate_flow_gradient_ascent.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@ba_optical_flow/evaluate_log_posterior.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@ba_optical_flow/evaluate_log_posterior_grad.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@ba_optical_flow/evaluate_log_posterior_grad_test.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@ba_optical_flow/flow_operator.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@ba_optical_flow/flow_operator_test.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@ba_optical_flow/parse_input_parameter.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@ba_optical_flow/subsasgn.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@ba_optical_flow/subsref.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@classic_nl_optical_flow/classic_nl_optical_flow.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@classic_nl_optical_flow/compute_flow.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@classic_nl_optical_flow/compute_flow_base.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@classic_nl_optical_flow/display.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@classic_nl_optical_flow/evalaute_wa_log_posterior.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@classic_nl_optical_flow/evaluate_log_posterior.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@classic_nl_optical_flow/flow_operator.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@classic_nl_optical_flow/parse_input_parameter.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@classic_nl_optical_flow/subsasgn.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@classic_nl_optical_flow/subsref.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@hs_optical_flow/compute_flow.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@hs_optical_flow/compute_flow_base.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@hs_optical_flow/compute_flow_increment_cgd.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@hs_optical_flow/display.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@hs_optical_flow/evaluate_log_posterior.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@hs_optical_flow/evaluate_log_posterior_grad.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@hs_optical_flow/flow_operator.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@hs_optical_flow/hs_optical_flow.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@hs_optical_flow/parse_input_parameter.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@hs_optical_flow/subsasgn.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/@hs_optical_flow/subsref.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/estimate_flow_interface.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/load_of_method.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/@robust_function/deriv.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/@robust_function/deriv_over_x.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/@robust_function/display.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/@robust_function/evaluate.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/@robust_function/evaluate_log.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/@robust_function/private/charbonnier.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/@robust_function/private/gaussian.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/@robust_function/private/geman_mcclure.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/@robust_function/private/generalized_charbonnier.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/@robust_function/private/huber.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/@robust_function/private/lorentzian.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/@robust_function/private/mixture.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/@robust_function/private/quadratic.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/@robust_function/private/spline.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/@robust_function/private/tdist.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/@robust_function/private/tdist_unnorm.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/@robust_function/private/tukey.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/@robust_function/robust_function.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/@robust_function/subsasgn.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/@robust_function/subsref.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/compute_image_pyramid.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/convmtxn.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/denoise_LO.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/denoise_color_weighted_medfilt2.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/detect_occlusion.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/downloaded/RGB2Lab.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/flowAngErr.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/imfiltermtx.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/interp2_bicubic.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/make_convn_mat.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/make_imfilter_mat.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/mex/sor.mexa64</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/partial_deriv.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/resample_flow.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/scale_image.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/structure_texture_decomposition_rof.m</file>
+      <file>${PROJECT_ROOT}/optflow_deqing/utils/weighted_median.m</file>
+      <file>${PROJECT_ROOT}/toolbox/channels/convTri.m</file>
+      <file>${PROJECT_ROOT}/toolbox/channels/gradientHist.m</file>
+      <file>${PROJECT_ROOT}/toolbox/channels/gradientMag.m</file>
+      <file>${PROJECT_ROOT}/toolbox/channels/private/convConst.mexa64</file>
+      <file>${PROJECT_ROOT}/toolbox/channels/private/gradientMex.mexa64</file>
+      <file>${PROJECT_ROOT}/toolbox/images/im.m</file>
+      <file>${PROJECT_ROOT}/toolbox/images/seqIo.m</file>
+      <file>${PROJECT_ROOT}/toolbox/images/seqReaderPlugin.m</file>
+      <file>${PROJECT_ROOT}/toolbox/images/seqWriterPlugin.m</file>
+      <file>${PROJECT_ROOT}/toolbox/matlab/checkNumArgs.m</file>
+      <file>${PROJECT_ROOT}/toolbox/matlab/getPrmDflt.m</file>
+      <file>${PROJECT_ROOT}/toolbox/matlab/int2str2.m</file>
+      <file>${PROJECT_ROOT}/toolbox/matlab/isfield2.m</file>
+      <file>${PROJECT_ROOT}/toolbox/matlab/ticStatus.m</file>
+      <file>${PROJECT_ROOT}/toolbox/matlab/tocStatus.m</file>
+    </fileset.resources>
+    <fileset.package />
+    <build-deliverables>
+      <file location="${PROJECT_ROOT}/computeFeaturesCompiled/for_testing" name="computeFeaturesCompiled" optional="false">/home/mayank/Work/FlySpaceTime/code/computeFeaturesCompiled/for_testing/computeFeaturesCompiled</file>
+      <file location="${PROJECT_ROOT}/computeFeaturesCompiled/for_testing" name="splash.png" optional="false">/home/mayank/Work/FlySpaceTime/code/computeFeaturesCompiled/for_testing/splash.png</file>
+      <file location="${PROJECT_ROOT}/computeFeaturesCompiled/for_testing" name="run_computeFeaturesCompiled.sh" optional="false">/home/mayank/Work/FlySpaceTime/code/computeFeaturesCompiled/for_testing/run_computeFeaturesCompiled.sh</file>
+      <file location="${PROJECT_ROOT}/computeFeaturesCompiled/for_testing" name="readme.txt" optional="true">/home/mayank/Work/FlySpaceTime/code/computeFeaturesCompiled/for_testing/readme.txt</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>/usr/local/MATLAB/R2015a</root>
+      <toolboxes />
+    </matlab>
+    <platform>
+      <unix>true</unix>
+      <mac>false</mac>
+      <windows>false</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>true</linux>
+      <solaris>false</solaris>
+      <osver>3.13.0-63-generic</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>glnxa64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>
