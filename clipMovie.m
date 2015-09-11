@@ -32,9 +32,10 @@ for ndx = 1:numel(Q.trx)
     end
     Q.trx(ndx).dt = Q.trx(ndx).dt(curStart:curEnd-1);
     Q.trx(ndx).endframe = curEnd;
-    Q.trx(ndx).nframes = curEnd;
-    pfstart(ndx) = curStart-Q.trx(ndx).firstframe +1;
-    pfend(ndx) = curEnd-Q.trx(ndx).firstframe +1;
+    Q.trx(ndx).nframes = curEnd-curStart+1;
+    Q.trx(ndx).firstframe = curStart;
+    pfstart(ndx) = curStart;
+    pfend(ndx) = curEnd;
   end
 end
 Q.timestamps = Q.timestamps(startFrame:endFrame);
