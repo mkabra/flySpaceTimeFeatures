@@ -9,7 +9,7 @@ def main(argv):
     return;
   mcrpath = '/groups/branson/bransonlab/mayank/MCR/v85'
   moviename = argv[0] + '/movie.ufmf'
-  trxname = argv[0] + '/trx.mat'
+  trxname = argv[0] + '/registered_trx.mat'
   stationary = argv[1]
   outdir = argv[3]
   blocksize = 500
@@ -38,7 +38,7 @@ def main(argv):
     f.close()
     cmd = "qsub -pe batch 1 -l new=true -N deepFtrs" + curname + " -j y -o " + outfile +  " -b y -cwd -V 'bash " +  shfile +  " > " +  outfile +  ".out '"
     print cmd
-    #retval = os.system(cmd)
+    retval = os.system(cmd)
 
 
 #    curjob = curjob + "bash /groups/branson/home/kabram/JAABA/perframe/run_StrawmenInfluenceCluster_par.sh /groups/branson/bransonlab/projects/olympiad/MCR/v717 " + curstr1
