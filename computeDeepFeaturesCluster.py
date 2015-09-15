@@ -36,7 +36,7 @@ def main(argv):
     f = open(shfile,'w')
     f.write(curjob)
     f.close()
-    cmd = "qsub -pe batch 1 -l new=true -N deepFtrs" + curname + " -j y -o " + outfile +  " -b y -cwd -V 'bash " +  shfile +  " > " +  outfile +  ".out '"
+    cmd = "qsub -pe batch 1 -N deepFtrs" + curname + " -j y -o " + outfile +  " -b y -cwd -V 'bash " +  shfile +  " > " +  outfile +  ".out '"
     print cmd
     retval = os.system(cmd)
 
