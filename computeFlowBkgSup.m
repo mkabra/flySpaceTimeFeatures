@@ -6,7 +6,16 @@ function [Vx,Vy] = computeFlowBkgSup(im1curr,im2curr,params)
 % properly. The flow increases as we go away from the center.
 % d_err is to account for that.
 gparams = getParams;
-dd_err = params.dimg/gparams.patchsz;
+
+sz = round(size(im1curr));
+bwimg = zeros(sz(1),sz(2));
+ctr = [ceil( (sz(1)+1)/2),ceil( (sz(2)+1)/2)];
+bwimg(ctr(1),ctr(2))=1;
+dimg = bwdist(bwimg,'euclidean');
+[xx,yy]= meshgrid(1:sz(2),1:sz(1));
+aimg = atan2(-(yy-ctr(1)),-(xx-ctr(2)));
+
+dd_err = dimg/size(im1curr,1);
 flow_thres = gparams.flow_thres;
 
 uv = estimate_flow_interface(im1curr,im2curr,...
@@ -25,8 +34,8 @@ rotd = [cos(curt) sin(curt); -sin(curt) cos(curt)]*[cdx;cdy];
 cdx = -rotd(1); cdy = -rotd(2);
 
 ctheta = params.dtheta;
-rotflowu = params.dimg.*(cos(params.aimg+ctheta)-cos(params.aimg));
-rotflowv = params.dimg.*(sin(params.aimg+ctheta)-sin(params.aimg));
+rotflowu = dimg.*(cos(aimg+ctheta)-cos(aimg));
+rotflowv = dimg.*(sin(aimg+ctheta)-sin(aimg));
 
 
 dd1 = sqrt( (uv(:,:,1)-cdx-rotflowu).^2 + (uv(:,:,2)-cdy-rotflowv).^2);
