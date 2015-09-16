@@ -1,15 +1,22 @@
-function clipMovie(indir,outdir,startFrame,endFrame)
-% function clipMovie(indir,outdir,startFrame,endFrame)
+function clipMovie(indir,outdir,startFrame,endFrame,varargin)
+% function clipMovie(indir,outdir,startFrame,endFrame,...)
+
+[moviename,trxfilename] = myparse(varargin,...
+  'moviename','movie.ufmf','trxfilename','trx.mat');
 
 if ~exist(outdir,'dir'),
   mkdir(outdir,'perframe');
 end
 
-if ~exist(fullfile(outdir,'movie.ufmf'),'file')
-  copyfile(fullfile(indir,'movie.ufmf'),fullfile(outdir,'movie.ufmf'));
+if ~exist(fullfile(outdir,moviename),'file')
+  copyfile(fullfile(indir,moviename),fullfile(outdir,moviename));
 end
 
-Q = load(fullfile(indir,'trx.mat'));
+if ~strcmp(trxfilename(end-3:end),'.mat')
+  trxfilename = [trxfilename '.mat'];
+end
+
+Q = load(fullfile(indir,trxfilename));
 selflds = {'x','y','theta','a','b','timestamps',...
   'x_mm','y_mm','theta_mm','a_mm','b_mm'};
 pfstart = [];
@@ -39,7 +46,7 @@ for ndx = 1:numel(Q.trx)
   end
 end
 Q.timestamps = Q.timestamps(startFrame:endFrame);
-save(fullfile(outdir,'trx.mat'),'-struct','Q');
+save(fullfile(outdir,trxfilename),'-struct','Q');
 
 if ~exist(fullfile(outdir,'perframe'),'dir'),
   mkdir(fullfile(outdir,'perframe'));
