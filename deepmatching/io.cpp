@@ -15,8 +15,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>
 */
 #include "std.h"
+#ifdef NOMEX
 #include <jpeglib.h>
 #include <png.h>
+#endif
 #include <setjmp.h>
 #include "io.h"
 
@@ -171,7 +173,7 @@ color_image_t *color_image_pnm_load(FILE *fp)
 }
 
 // JPG
-
+#ifdef NOMEX
 color_image_t *color_image_jpeg_load(FILE *fp)
 {
     struct jpeg_decompress_struct cinfo;
@@ -333,6 +335,7 @@ color_image_t * color_image_png_load( FILE* fp, const char* file_name )
     
     return image;
 }
+#endif
 
 // GENERAL LOAD
 
@@ -352,7 +355,9 @@ color_image_t *color_image_load(const char *fname)
     rewind(fp);
     if(magic_short[0] == 0xd8ff) 
 	{
+        #ifdef NOMEX
         image = color_image_jpeg_load(fp);
+        #endif
     } 
 	else if(magic[0]=='P' && (magic[1]=='6' || magic[1]=='5')) 
 	{ /* PPM raw */
@@ -360,7 +365,9 @@ color_image_t *color_image_load(const char *fname)
     }
     else if( magic[0]==-119 && magic[1]=='P' ) 
     {
+      #ifdef NOMEX
       image = color_image_png_load( fp, fname );
+      #endif
     }
     else 
 	{

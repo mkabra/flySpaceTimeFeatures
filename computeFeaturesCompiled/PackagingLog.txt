@@ -4,60 +4,144 @@ ant:
   <mkdir dir="/home/mayank/Work/FlySpaceTime/code/computeFeaturesCompiled/for_testing" />
   <mkdir dir="/home/mayank/Work/FlySpaceTime/code/computeFeaturesCompiled/for_redistribution_files_only" />
 </ant>
-mcc -o computeFeaturesCompiled -W main:computeFeaturesCompiled -T link:exe -d /home/mayank/Work/FlySpaceTime/code/computeFeaturesCompiled/for_testing -v /home/mayank/Work/FlySpaceTime/code/computeFeaturesCompiled.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@alt_ba_optical_flow/alt_ba_optical_flow.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@ba_optical_flow/ba_optical_flow.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/@robust_function/private/charbonnier.m -a /home/mayank/Work/FlySpaceTime/code/toolbox/matlab/checkNumArgs.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@classic_nl_optical_flow/classic_nl_optical_flow.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@alt_ba_optical_flow/compute_flow.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@ba_optical_flow/compute_flow.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@classic_nl_optical_flow/compute_flow.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@hs_optical_flow/compute_flow.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@alt_ba_optical_flow/compute_flow_base.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@ba_optical_flow/compute_flow_base.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@classic_nl_optical_flow/compute_flow_base.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@hs_optical_flow/compute_flow_base.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@hs_optical_flow/compute_flow_increment_cgd.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/compute_image_pyramid.m -a /home/mayank/Work/FlySpaceTime/code/computeDeepFlow.m -a /home/mayank/Work/FlySpaceTime/code/computeDeepFlowBkgSup.m -a /home/mayank/Work/FlySpaceTime/code/computeFlowBkgSup.m -a /home/mayank/Work/FlySpaceTime/code/toolbox/channels/private/convConst.mexa64 -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/convmtxn.m -a /home/mayank/Work/FlySpaceTime/code/toolbox/channels/convTri.m -a /home/mayank/Work/FlySpaceTime/code/deepmatching/deepmex.mexa64 -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/denoise_color_weighted_medfilt2.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/denoise_LO.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/@robust_function/deriv.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/@robust_function/deriv_over_x.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/detect_occlusion.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@alt_ba_optical_flow/display.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@ba_optical_flow/display.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@classic_nl_optical_flow/display.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@hs_optical_flow/display.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/@robust_function/display.m -a /home/mayank/Work/FlySpaceTime/code/misc/dtypechar2matlabclass.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@ba_optical_flow/estimate_flow_gradient_ascent.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/estimate_flow_interface.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@alt_ba_optical_flow/evalaute_new_log_posterior.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@classic_nl_optical_flow/evalaute_wa_log_posterior.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/@robust_function/evaluate.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/@robust_function/evaluate_log.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@alt_ba_optical_flow/evaluate_log_posterior.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@ba_optical_flow/evaluate_log_posterior.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@classic_nl_optical_flow/evaluate_log_posterior.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@hs_optical_flow/evaluate_log_posterior.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@ba_optical_flow/evaluate_log_posterior_grad.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@hs_optical_flow/evaluate_log_posterior_grad.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@ba_optical_flow/evaluate_log_posterior_grad_test.m -a /home/mayank/Work/FlySpaceTime/code/extractPatch.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@alt_ba_optical_flow/flow_operator.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@ba_optical_flow/flow_operator.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@classic_nl_optical_flow/flow_operator.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@hs_optical_flow/flow_operator.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@ba_optical_flow/flow_operator_test.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/flowAngErr.m -a /home/mayank/Work/FlySpaceTime/code/filehandling/fmf_get_datatype.m -a /home/mayank/Work/FlySpaceTime/code/filehandling/fmf_read_frame.m -a /home/mayank/Work/FlySpaceTime/code/filehandling/fmf_read_header.m -a /home/mayank/Work/FlySpaceTime/code/filehandling/fmfreadframe.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/@robust_function/private/gaussian.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/@robust_function/private/geman_mcclure.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/@robust_function/private/generalized_charbonnier.m -a /home/mayank/Work/FlySpaceTime/code/genFeatures.m -a /home/mayank/Work/FlySpaceTime/code/filehandling/get_readframe_fcn.m -a /home/mayank/Work/FlySpaceTime/code/filehandling/GetPCShortcutFileActualPath.m -a /home/mayank/Work/FlySpaceTime/code/toolbox/matlab/getPrmDflt.m -a /home/mayank/Work/FlySpaceTime/code/toolbox/channels/gradientHist.m -a /home/mayank/Work/FlySpaceTime/code/toolbox/channels/gradientMag.m -a /home/mayank/Work/FlySpaceTime/code/toolbox/channels/private/gradientMex.mexa64 -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@hs_optical_flow/hs_optical_flow.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/@robust_function/private/huber.m -a /home/mayank/Work/FlySpaceTime/code/toolbox/images/im.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/imfiltermtx.m -a /home/mayank/Work/FlySpaceTime/code/toolbox/matlab/int2str2.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/interp2_bicubic.m -a /home/mayank/Work/FlySpaceTime/code/misc/isabspath.m -a /home/mayank/Work/FlySpaceTime/code/toolbox/matlab/isfield2.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/load_of_method.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/@robust_function/private/lorentzian.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/make_convn_mat.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/make_imfilter_mat.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/@robust_function/private/mixture.m -a /home/mayank/Work/FlySpaceTime/code/filehandling/mmf_get_readframe_fcn.m -a /home/mayank/Work/FlySpaceTime/code/filehandling/mmf_read_frame.m -a /home/mayank/Work/FlySpaceTime/code/filehandling/mmf_read_header.m -a /home/mayank/Work/FlySpaceTime/code/filehandling/mmf_read_mean.m -a /home/mayank/Work/FlySpaceTime/code/misc/myparse.m -a /home/mayank/Work/FlySpaceTime/code/misc/padgrab.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@alt_ba_optical_flow/parse_input_parameter.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@ba_optical_flow/parse_input_parameter.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@classic_nl_optical_flow/parse_input_parameter.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@hs_optical_flow/parse_input_parameter.m -a /home/mayank/Work/FlySpaceTime/code/filehandling/parsejpg8.mexa64 -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/partial_deriv.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/@robust_function/private/quadratic.m -a /home/mayank/Work/FlySpaceTime/code/filehandling/r_readseqinfo.m -a /home/mayank/Work/FlySpaceTime/code/filehandling/read_seq_frame.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/resample_flow.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/downloaded/RGB2Lab.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/@robust_function/robust_function.m -a /home/mayank/Work/FlySpaceTime/code/filehandling/sbfmf_read_frame.m -a /home/mayank/Work/FlySpaceTime/code/filehandling/sbfmf_read_header.m -a /home/mayank/Work/FlySpaceTime/code/filehandling/sbfmfreadframe.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/scale_image.m -a /home/mayank/Work/FlySpaceTime/code/toolbox/images/seqIo.m -a /home/mayank/Work/FlySpaceTime/code/toolbox/images/seqReaderPlugin.m -a /home/mayank/Work/FlySpaceTime/code/toolbox/images/seqWriterPlugin.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/mex/sor.mexa64 -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/@robust_function/private/spline.m -a /home/mayank/Work/FlySpaceTime/code/misc/splitext.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/structure_texture_decomposition_rof.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@alt_ba_optical_flow/subsasgn.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@ba_optical_flow/subsasgn.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@classic_nl_optical_flow/subsasgn.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@hs_optical_flow/subsasgn.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/@robust_function/subsasgn.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@alt_ba_optical_flow/subsref.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@ba_optical_flow/subsref.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@classic_nl_optical_flow/subsref.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/@hs_optical_flow/subsref.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/@robust_function/subsref.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/@robust_function/private/tdist.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/@robust_function/private/tdist_unnorm.m -a /home/mayank/Work/FlySpaceTime/code/toolbox/matlab/ticStatus.m -a /home/mayank/Work/FlySpaceTime/code/toolbox/matlab/tocStatus.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/@robust_function/private/tukey.m -a /home/mayank/Work/FlySpaceTime/code/filehandling/ufmf_get_readframe_fcn.m -a /home/mayank/Work/FlySpaceTime/code/filehandling/ufmf_read_frame.m -a /home/mayank/Work/FlySpaceTime/code/filehandling/ufmf_read_header.m -a /home/mayank/Work/FlySpaceTime/code/filehandling/ufmf_read_mean.m -a /home/mayank/Work/FlySpaceTime/code/filehandling/videoioreadframe.m -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing/utils/weighted_median.m 
+mcc -o computeFeaturesCompiled -W main:computeFeaturesCompiled -T link:exe -d /home/mayank/Work/FlySpaceTime/code/computeFeaturesCompiled/for_testing -v /home/mayank/Work/FlySpaceTime/code/computeFeaturesCompiled.m -a /home/mayank/Work/FlySpaceTime/code/deepmatching/deepmex.mexa64 -a /home/mayank/Work/FlySpaceTime/code/filehandling -a /home/mayank/Work/FlySpaceTime/code/misc -a /home/mayank/Work/FlySpaceTime/code/optflow_deqing -a /home/mayank/Work/FlySpaceTime/code/toolbox 
 Compiler version: 6.0 (R2015a)
 Dependency analysis by REQUIREMENTS.
 [Warning: Adding path "/home/mayank/Work/FlySpaceTime/code" to Compiler path
 instance.] 
 Parsing file "/home/mayank/Work/FlySpaceTime/code/computeFeaturesCompiled.m"
 	(Referenced from: "Compiler Command Line").
-Deleting 42 temporary MEX authorization files.
-Removing: '/tmp/0991dKClXdn_39197.auth'.
-Removing: '/tmp/0991d2mOK1z_39197.auth'.
-Removing: '/tmp/0991dHHy7RM_39197.auth'.
-Removing: '/tmp/0991dQfPBIZ_39197.auth'.
-Removing: '/tmp/0991djAF7yc_39197.auth'.
-Removing: '/tmp/0991d2uIAqp_39197.auth'.
-Removing: '/tmp/0991ddK05hC_39197.auth'.
-Removing: '/tmp/0991dGwuD9O_39197.auth'.
-Removing: '/tmp/0991dJ9nc11_39197.auth'.
-Removing: '/tmp/0991deNDMSe_39197.auth'.
-Removing: '/tmp/0991dJUeoKr_39197.auth'.
-Removing: '/tmp/0991dEzp1BE_39197.auth'.
-Removing: '/tmp/0991dvaXHtR_39197.auth'.
-Removing: '/tmp/0991dOX5pl4_39197.auth'.
-Removing: '/tmp/0991d5h2bdh_39197.auth'.
-Removing: '/tmp/0991d2PdZ4t_39197.auth'.
-Removing: '/tmp/0991dnQGGXG_39197.auth'.
-Removing: '/tmp/0991dODKGQT_39197.auth'.
-Removing: '/tmp/0991dDN6KJ6_39197.auth'.
-Removing: '/tmp/0991d0mUQCj_39197.auth'.
-Removing: '/tmp/0991dxvqYvw_39197.auth'.
-Removing: '/tmp/0991dMEY6oJ_39197.auth'.
-Removing: '/tmp/0991d5VPgiW_39197.auth'.
-Removing: '/tmp/0991dg94rb9_39197.auth'.
-Removing: '/tmp/0991dxLTE4l_39197.auth'.
-Removing: '/tmp/0991dMW3SXy_39197.auth'.
-Removing: '/tmp/0991db9F9QL_39197.auth'.
-Removing: '/tmp/0991di6DrKY_39197.auth'.
-Removing: '/tmp/0991dxp4NDb_39197.auth'.
-Removing: '/tmp/0991dIyMbxo_39197.auth'.
-Removing: '/tmp/0991dzXoBqB_39197.auth'.
-Removing: '/tmp/0991dK4i2jO_39197.auth'.
-Removing: '/tmp/0991dvuyud1_39197.auth'.
-Removing: '/tmp/0991dutAY6d_39197.auth'.
-Removing: '/tmp/0991dNkRu0q_39197.auth'.
-Removing: '/tmp/0991dYrA2TD_39197.auth'.
-Removing: '/tmp/0991dX4yBNQ_39197.auth'.
-Removing: '/tmp/0991dACAbH3_39197.auth'.
-Removing: '/tmp/0991d13XMAg_39197.auth'.
-Removing: '/tmp/0991dim8sut_39197.auth'.
-Removing: '/tmp/0991dd5yboG_39197.auth'.
-Removing: '/tmp/0991dad9VhT_39197.auth'.
+Invalid character was detected.
+Invalid character was detected.
+Warning: The source file '/tmp/01341O1lMmp_4929Contents.m.info' has a name conflict with another source file in CTF. It is saved as '/toolbox/classify/Contents_1.m' in the CTF. Please verify that your application works as expected.
+Warning: The source file '/tmp/01341S9E3Sx_4929Contents.m.info' has a name conflict with another source file in CTF. It is saved as '/toolbox/filters/Contents_1.m' in the CTF. Please verify that your application works as expected.
+Warning: The source file '/tmp/01341gyYF6k_4929Contents.m.info' has a name conflict with another source file in CTF. It is saved as '/toolbox/channels/Contents_1.m' in the CTF. Please verify that your application works as expected.
+Warning: The source file '/tmp/01341mhkUCt_4929Contents.m.info' has a name conflict with another source file in CTF. It is saved as '/toolbox/external/m2html/Contents_1.m' in the CTF. Please verify that your application works as expected.
+Deleting 120 temporary MEX authorization files.
+Removing: '/tmp/01341WmkkUp_4929.auth'.
+Removing: '/tmp/01341kppGNt_4929.auth'.
+Removing: '/tmp/01341EBw9Gx_4929.auth'.
+Removing: '/tmp/01341EqzGAB_4929.auth'.
+Removing: '/tmp/01341EmwOuF_4929.auth'.
+Removing: '/tmp/01341YQgYoJ_4929.auth'.
+Removing: '/tmp/01341uXH9iN_4929.auth'.
+Removing: '/tmp/01341UsKmdR_4929.auth'.
+Removing: '/tmp/01341gIl08U_4929.auth'.
+Removing: '/tmp/01341keSF4Y_4929.auth'.
+Removing: '/tmp/01341sqK922_4929.auth'.
+Removing: '/tmp/01341ACJH16_4929.auth'.
+Removing: '/tmp/01341UKuE0a_4929.auth'.
+Removing: '/tmp/01341073CZe_4929.auth'.
+Removing: '/tmp/01341AArDYi_4929.auth'.
+Removing: '/tmp/01341Ob6FXm_4929.auth'.
+Removing: '/tmp/01341uRmKWq_4929.auth'.
+Removing: '/tmp/01341sakQVu_4929.auth'.
+Removing: '/tmp/01341STwYUy_4929.auth'.
+Removing: '/tmp/013414Hm8TC_4929.auth'.
+Removing: '/tmp/01341QiRjTG_4929.auth'.
+Removing: '/tmp/01341sGDxSK_4929.auth'.
+Removing: '/tmp/01341u97MRO_4929.auth'.
+Removing: '/tmp/01341ali4QS_4929.auth'.
+Removing: '/tmp/01341C9HnQW_4929.auth'.
+Removing: '/tmp/01341g0IIP0_4929.auth'.
+Removing: '/tmp/01341cmx5O4_4929.auth'.
+Removing: '/tmp/01341GjJPO8_4929.auth'.
+Removing: '/tmp/01341cGLBOc_4929.auth'.
+Removing: '/tmp/01341KbypOg_4929.auth'.
+Removing: '/tmp/013418NAfOk_4929.auth'.
+Removing: '/tmp/0134166e7No_4929.auth'.
+Removing: '/tmp/01341eZD0Ns_4929.auth'.
+Removing: '/tmp/01341sKhWNw_4929.auth'.
+Removing: '/tmp/01341yPDTNA_4929.auth'.
+Removing: '/tmp/01341c4CSNE_4929.auth'.
+Removing: '/tmp/013418RRTNI_4929.auth'.
+Removing: '/tmp/01341OVMWNM_4929.auth'.
+Removing: '/tmp/013416in1NQ_4929.auth'.
+Removing: '/tmp/013414bSGTU_4929.auth'.
+Removing: '/tmp/01341UOooZY_4929.auth'.
+Removing: '/tmp/013412EQ742_4929.auth'.
+Removing: '/tmp/01341Q2PTa7_4929.auth'.
+Removing: '/tmp/013410dDHgb_4929.auth'.
+Removing: '/tmp/01341qdjxmf_4929.auth'.
+Removing: '/tmp/01341eNcpsj_4929.auth'.
+Removing: '/tmp/013414PSiyn_4929.auth'.
+Removing: '/tmp/01341EyfeEr_4929.auth'.
+Removing: '/tmp/01341WzTbKv_4929.auth'.
+Removing: '/tmp/01341ijgbQz_4929.auth'.
+Removing: '/tmp/01341EQfcWD_4929.auth'.
+Removing: '/tmp/01341uXyf2H_4929.auth'.
+Removing: '/tmp/01341mhxk8L_4929.auth'.
+Removing: '/tmp/01341C1areQ_4929.auth'.
+Removing: '/tmp/013418jOAkU_4929.auth'.
+Removing: '/tmp/013412otMqY_4929.auth'.
+Removing: '/tmp/01341GrQZw2_4929.auth'.
+Removing: '/tmp/013416WufD6_4929.auth'.
+Removing: '/tmp/01341saJwJa_4929.auth'.
+Removing: '/tmp/01341sCLPPe_4929.auth'.
+Removing: '/tmp/01341OZ5aWi_4929.auth'.
+Removing: '/tmp/01341I64x2m_4929.auth'.
+Removing: '/tmp/01341q3GW8q_4929.auth'.
+Removing: '/tmp/01341qD7Doz_4929.auth'.
+Removing: '/tmp/013410FxfxD_4929.auth'.
+Removing: '/tmp/01341AqfTFH_4929.auth'.
+Removing: '/tmp/01341g6eyOL_4929.auth'.
+Removing: '/tmp/01341KNzeXP_4929.auth'.
+Removing: '/tmp/01341MkdW5T_4929.auth'.
+Removing: '/tmp/01341GX7EeY_4929.auth'.
+Removing: '/tmp/013414rtrn2_4929.auth'.
+Removing: '/tmp/01341cMefw6_4929.auth'.
+Removing: '/tmp/01341Oxt6Ea_4929.auth'.
+Removing: '/tmp/01341co4YNe_4929.auth'.
+Removing: '/tmp/01341oUf5fv_4929.auth'.
+Removing: '/tmp/01341SZPPXi_4929.auth'.
+Removing: '/tmp/01341c8RY7m_4929.auth'.
+Removing: '/tmp/01341siXair_4929.auth'.
+Removing: '/tmp/013418Htrsv_4929.auth'.
+Removing: '/tmp/013418dTKCz_4929.auth'.
+Removing: '/tmp/01341kyG5MD_4929.auth'.
+Removing: '/tmp/01341A0OrXH_4929.auth'.
+Removing: '/tmp/013418dgP7L_4929.auth'.
+Removing: '/tmp/01341wmZdiQ_4929.auth'.
+Removing: '/tmp/01341sSYDsU_4929.auth'.
+Removing: '/tmp/01341wSk5CY_4929.auth'.
+Removing: '/tmp/01341OdxzN2_4929.auth'.
+Removing: '/tmp/013412OD6X6_4929.auth'.
+Removing: '/tmp/01341ceoF8a_4929.auth'.
+Removing: '/tmp/01341g87ijf_4929.auth'.
+Removing: '/tmp/01341Qu5Ytj_4929.auth'.
+Removing: '/tmp/013410XoGEn_4929.auth'.
+Removing: '/tmp/01341SV1oPr_4929.auth'.
+Removing: '/tmp/01341uXD9Zv_4929.auth'.
+Removing: '/tmp/01341cuGVaA_4929.auth'.
+Removing: '/tmp/01341OD1IlE_4929.auth'.
+Removing: '/tmp/01341mbDxwI_4929.auth'.
+Removing: '/tmp/01341AWGnHM_4929.auth'.
+Removing: '/tmp/01341ifQfSQ_4929.auth'.
+Removing: '/tmp/01341sgh92U_4929.auth'.
+Removing: '/tmp/01341Yw43dZ_4929.auth'.
+Removing: '/tmp/013416i6Zo3_4929.auth'.
+Removing: '/tmp/01341EwtXz7_4929.auth'.
+Removing: '/tmp/01341ev8VKb_4929.auth'.
+Removing: '/tmp/01341gMz0Vf_4929.auth'.
+Removing: '/tmp/01341gWg76j_4929.auth'.
+Removing: '/tmp/01341IU9fio_4929.auth'.
+Removing: '/tmp/01341cMsqts_4929.auth'.
+Removing: '/tmp/01341Uk4BEw_4929.auth'.
+Removing: '/tmp/01341soTPPA_4929.auth'.
+Removing: '/tmp/01341C5840E_4929.auth'.
+Removing: '/tmp/01341qjHlcJ_4929.auth'.
+Removing: '/tmp/01341AMCEnN_4929.auth'.
+Removing: '/tmp/01341YsWYyR_4929.auth'.
+Removing: '/tmp/013412OdZLV_4929.auth'.
+Removing: '/tmp/01341q5a1YZ_4929.auth'.
+Removing: '/tmp/01341u1A4b4_4929.auth'.
+Removing: '/tmp/01341ebYsp8_4929.auth'.
+Removing: '/tmp/01341cSRSCc_4929.auth'.
+Removing: '/tmp/0134149VBQg_4929.auth'.
 Generating file "/home/mayank/Work/FlySpaceTime/code/computeFeaturesCompiled/for_testing/readme.txt".
 Generating file "/home/mayank/Work/FlySpaceTime/code/computeFeaturesCompiled/for_testing/run_computeFeaturesCompiled.sh".
 Packaging...
 Creating the bundle...
 Web based installer created at /home/mayank/Work/FlySpaceTime/code/computeFeaturesCompiled/for_redistribution/MyAppInstaller_web.install.
 Packaging complete.
-Elapsed packaging time was: 1 minutes and 28 seconds.
+Elapsed packaging time was: 2 minutes and 57 seconds.
