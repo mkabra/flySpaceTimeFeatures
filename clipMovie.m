@@ -1,12 +1,15 @@
-function clipMovie(indir,outdir,trxfilename,startFrame,endFrame)
-% function clipMovie(indir,outdir,trxfilename,startFrame,endFrame)
+function clipMovie(indir,outdir,startFrame,endFrame,varargin)
+% function clipMovie(indir,outdir,startFrame,endFrame,...)
+
+[moviename,trxfilename] = myparse(varargin,...
+  'moviename','movie.ufmf','trxfilename','trx.mat');
 
 if ~exist(outdir,'dir'),
   mkdir(outdir,'perframe');
 end
 
-if ~exist(fullfile(outdir,'movie.ufmf'),'file')
-  copyfile(fullfile(indir,'movie.ufmf'),fullfile(outdir,'movie.ufmf'));
+if ~exist(fullfile(outdir,moviename),'file')
+  copyfile(fullfile(indir,moviename),fullfile(outdir,moviename));
 end
 
 if ~strcmp(trxfilename(end-3:end),'.mat')
