@@ -27,7 +27,7 @@ def main(argv):
     curname = expname + '_' + str(curb)
     curoutname = outdir + '/' + expname
     curjob = 'export MCR_CACHE_ROOT="/scratch/' +  username + '/mcr_cache_root.' + curname + '";\n'
-    curjob = curjob + 'run_computeFeaturesCompiled.sh' + ' ' + mcrpath + ' ' + moviename + ' '+ trxname + ' ' + stationary + ' deep-sup ' + str(curb) +' ' + str(blocksize) +' ' + curoutname + ';\n'
+    curjob = curjob + './run_computeFeaturesCompiled.sh' + ' ' + mcrpath + ' ' + moviename + ' '+ trxname + ' ' + stationary + ' deep-sup ' + str(curb) +' ' + str(blocksize) +' ' + curoutname + ';\n'
     outfile = curoutname + '_' + str(curb) + '_log.txt'
     shfile = curoutname +  '_' + str(curb) + '_script.sh'
     outmatfile = curoutname + '_' + str(curb) + '.mat'
