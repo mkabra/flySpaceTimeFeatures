@@ -1,4 +1,4 @@
-function ftrs = gatherCompiledFeatures(savename,numblocks,expdir,stationary,flowname)
+function ftrs = gatherCompiledFeatures(savename,numblocks,expdir,stationary,method)
 
 allftrs = {};
 for ndx = 1:numblocks
@@ -7,6 +7,10 @@ for ndx = 1:numblocks
   
 end
 ff = fields(allftrs{1});
+
+params = getParams;
+mndx = find(strcmp(params.methods,method));
+flowname = params.flownames{mndx};
 
 tt = load(fullfile(expdir,'trx.mat'));
 tracks = tt.trx;

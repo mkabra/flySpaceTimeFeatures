@@ -23,14 +23,14 @@ pfstart = [];
 pfend = [];
 for ndx = 1:numel(Q.trx)
   if Q.trx(ndx).firstframe > endFrame || Q.trx(ndx).endframe < startFrame
-    Q.trx(ndx).firstframe = 0;
-    Q.trx(ndx).endframe = -1;
+    Q.trx(ndx).firstframe = startFrame;
+    Q.trx(ndx).endframe = startFrame;
     for fnum = 1:numel(selflds)
-      Q.trx(ndx).(selflds{fnum}) = [];
+      Q.trx(ndx).(selflds{fnum}) = Q.trx(ndx).(selflds{fnum})(1);
     end
-    Q.trx(ndx).dt = [];
-    Q.trx(ndx).nframes = 0;
-    pfstart(ndx) = nan; pfend(ndx) = nan;
+    Q.trx(ndx).dt = 1;
+    Q.trx(ndx).nframes = 1;
+    pfstart(ndx) = 1; pfend(ndx) = 1;
   else
     curStart = max(Q.trx(ndx).firstframe,startFrame);
     curEnd = min(Q.trx(ndx).endframe,endFrame);

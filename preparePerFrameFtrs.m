@@ -10,13 +10,15 @@ if nargin<4,
   usedeep = true;
 end
 
+params = getParams;
+
 if usedeep,
   method = 'deep-sup';
-  flowname = 'DS';
 else
   method = 'hs-sup';
-  flowname = 'hs_sup';
 end
+mndx = find(strcmp(params.methods,method));
+flowname = params.flownames{mndx};
 % method can be LK, hs-brightness, hs-sup. 
 
 % method = 'LK';

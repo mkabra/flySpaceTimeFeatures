@@ -11,6 +11,9 @@ tracks = tracks.trx;
 [readfcn,nframes,fid,headerinfo] = get_readframe_fcn(moviename);
 fclose(fid);
 
+ff = [tracks.firstframe];
+ee = [tracks.endframe];
+
 minfirst = min([tracks.firstframe]);
 maxlast = max([tracks.endframe]);
 nframes = maxlast-minfirst+1;

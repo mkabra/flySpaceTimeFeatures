@@ -19,3 +19,6 @@ params.deepscale = 4;
 params.deep_thres = 3.5;
 params.deepmatching_step = 8;
 params.warping_iters = 2;
+
+params.methods = {'deep-sup','hs-sup'};
+params.flownames = {'DS','hs_sup'};
