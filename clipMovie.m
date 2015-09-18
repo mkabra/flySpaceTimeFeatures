@@ -35,7 +35,7 @@ for ndx = 1:numel(Q.trx)
     curStart = max(Q.trx(ndx).firstframe,startFrame)-Q.trx(ndx).firstframe+1;
     curEnd = min(Q.trx(ndx).endframe,endFrame)-Q.trx(ndx).firstframe+1;
     for fnum = 1:numel(selflds)
-      Q.trx(ndx).(selflds{fnum}) = Q.trx(ndx).(selflds{fnum})(curStart:curEnd);
+      Q.trx(ndx).(selflds{fnum}) = Q.trx(ndx).(selflds{fnum})( (curStart:curEnd)-Q.trx(ndx).firstframe+1);
     end
     Q.trx(ndx).dt = Q.trx(ndx).dt(curStart:curEnd-1);
     Q.trx(ndx).endframe = curEnd;
