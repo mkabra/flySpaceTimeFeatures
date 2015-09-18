@@ -32,18 +32,18 @@ for ndx = 1:numel(Q.trx)
     Q.trx(ndx).nframes = 1;
     pfstart(ndx) = 1; pfend(ndx) = 1;
   else
-    curStart = max(Q.trx(ndx).firstframe,startFrame)-Q.trx(ndx).firstframe+1;
-    curEnd = min(Q.trx(ndx).endframe,endFrame)-Q.trx(ndx).firstframe+1;
+    curStart = max(Q.trx(ndx).firstframe,startFrame);
+    curEnd = min(Q.trx(ndx).endframe,endFrame);
     for fnum = 1:numel(selflds)
       Q.trx(ndx).(selflds{fnum}) = Q.trx(ndx).(selflds{fnum})( (curStart:curEnd)-Q.trx(ndx).firstframe+1);
     end
-    Q.trx(ndx).dt = Q.trx(ndx).dt(curStart:curEnd-1);
+    Q.trx(ndx).dt = Q.trx(ndx).dt( (curStart:curEnd-1)-Q.trx(ndx).firstframe+1);
     Q.trx(ndx).endframe = curEnd;
     Q.trx(ndx).nframes = curEnd-curStart+1;
     Q.trx(ndx).firstframe = curStart;
     Q.trx(ndx).off = -curStart+1;
-    pfstart(ndx) = curStart;
-    pfend(ndx) = curEnd;
+    pfstart(ndx) = curStart-Q.trx(ndx).firstframe+1;
+    pfend(ndx) = curEnd-Q.trx(ndx).firstframe+1;
   end
 end
 if ~isempty(Q.timestamps),
