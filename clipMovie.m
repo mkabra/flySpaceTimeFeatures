@@ -45,7 +45,9 @@ for ndx = 1:numel(Q.trx)
     pfend(ndx) = curEnd;
   end
 end
-Q.timestamps = Q.timestamps(startFrame:endFrame);
+if ~isempty(Q.timestamps),
+  Q.timestamps = Q.timestamps(startFrame:endFrame);
+end
 save(fullfile(outdir,trxfilename),'-struct','Q');
 
 if ~exist(fullfile(outdir,'perframe'),'dir'),
