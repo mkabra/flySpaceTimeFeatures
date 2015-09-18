@@ -32,8 +32,8 @@ for ndx = 1:numel(Q.trx)
     Q.trx(ndx).nframes = 1;
     pfstart(ndx) = 1; pfend(ndx) = 1;
   else
-    curStart = max(Q.trx(ndx).firstframe,startFrame);
-    curEnd = min(Q.trx(ndx).endframe,endFrame);
+    curStart = max(Q.trx(ndx).firstframe,startFrame)-Q.trx(ndx).firstframe+1;
+    curEnd = min(Q.trx(ndx).endframe,endFrame)-Q.trx(ndx).firstframe+1;
     for fnum = 1:numel(selflds)
       Q.trx(ndx).(selflds{fnum}) = Q.trx(ndx).(selflds{fnum})(curStart:curEnd);
     end
