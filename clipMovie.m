@@ -41,6 +41,7 @@ for ndx = 1:numel(Q.trx)
     Q.trx(ndx).endframe = curEnd;
     Q.trx(ndx).nframes = curEnd-curStart+1;
     Q.trx(ndx).firstframe = curStart;
+    Q.trx(ndx).off = -curStart+1;
     pfstart(ndx) = curStart;
     pfend(ndx) = curEnd;
   end
