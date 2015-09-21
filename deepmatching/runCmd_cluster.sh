@@ -15,6 +15,6 @@ mex -v -c image.cpp $FLAGS CXXFLAGS=' -fPIC'  LDFLAGS=' -fPIC'
 mex -v -c pixel_desc.cpp $FLAGS CXXFLAGS=' -fPIC'  LDFLAGS=' -fPIC'
 mex -v -c conv.cpp *.o  $FLAGS CXXFLAGS=' -fPIC'  LDFLAGS=' -fPIC'
 mex -v -c conv.cpp *.o  $FLAGS CXXFLAGS=' -fPIC' LDFLAGS=' -fPIC'
-mex -v -c deep_matching.cpp *.o  $FLAGS CXXFLAGS=' -fPIC'  LDFLAGS=' -fPIC'
-mex -v deepmex.cpp *.o  $FLAGS CXXFLAGS=' -fPIC' LDFLAGS=' -fPIC'
-/usr/local/MATLAB/R2015a/bin/matlab -nodesktop -nosplash -r debugmex -output deepmex_cluster
+mex -v -c  $deep_matching.cpp *.o FLAGS CXXFLAGS=' -fPIC'  LDFLAGS=' -fPIC' 
+mex -v deepmex.cpp *.o  $FLAGS CXXFLAGS=' -fPIC' LDFLAGS=' -fPIC' -output deepmex_cluster
+/usr/local/MATLAB/R2015a/bin/matlab -nodesktop -nosplash -r debugmex 
