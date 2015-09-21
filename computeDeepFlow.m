@@ -24,8 +24,13 @@ nghsz = 0.23;
 % sz = size(im1curr);
 % A = dlmread(ofile);
 
-A = deepmex(single(im1curr),single(im2curr),...
-  scale*isz(1),scale*isz(2),round(nghsz*scale*isz(1)));
+if ~isdeployed
+  A = deepmex(single(im1curr),single(im2curr),...
+    scale*isz(1),scale*isz(2),round(nghsz*scale*isz(1)));
+else
+  A = deepmex_cluster(single(im1curr),single(im2curr),...
+    scale*isz(1),scale*isz(2),round(nghsz*scale*isz(1)));
+end
 A = A';
 A(:,1:4) = A(:,1:4)/scale;
 Vx = zeros(isz); 
