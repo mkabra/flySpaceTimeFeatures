@@ -1,6 +1,9 @@
-function ftrs = gatherCompiledFeatures(savename,numblocks,expdir,stationary,method)
+function ftrs = gatherCompiledFeatures(savename,nframes,expdir,stationary)
 
+params = getParams;
+method = 'deep-sup';
 allftrs = {};
+numblocks = ceil(nframes/params.blocksize);
 for ndx = 1:numblocks
   Q = load(sprintf('%s_%d.mat',savename,ndx));
   allftrs{ndx} = Q.curftrs;
