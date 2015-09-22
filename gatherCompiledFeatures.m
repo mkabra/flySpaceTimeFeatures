@@ -1,5 +1,9 @@
-function ftrs = gatherCompiledFeatures(outdir,nframes,expdir,stationary)
+function ftrs = gatherCompiledFeatures(outdir,expdir,stationary,varargin)
 
+[moviename,trxfilename] = myparse(varargin,...
+  'moviename','movie.ufmf','trxfilename','trx.mat');
+
+[~,nframes] = get_readframe_fcn(fullfile(expdir,moviename));
 [~,expname] = fileparts(expdir);
 savename = fullfile(outdir,expname);
 params = getParams;
@@ -17,7 +21,7 @@ params = getParams;
 mndx = find(strcmp(params.methods,method));
 flowname = params.flownames{mndx};
 
-tt = load(fullfile(expdir,'trx.mat'));
+tt = load(fullfile(expdir,trxfilename));
 tracks = tt.trx;
 
 % Initialize the struct for features of all the frames
