@@ -1,5 +1,7 @@
-function ftrs = gatherCompiledFeatures(savename,nframes,expdir,stationary)
+function ftrs = gatherCompiledFeatures(outdir,nframes,expdir,stationary)
 
+[~,expname] = fileparts(expdir);
+savename = fullfile(outdir,expname);
 params = getParams;
 method = 'deep-sup';
 allftrs = {};
