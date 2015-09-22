@@ -1,4 +1,5 @@
 function ftrs = gatherCompiledFeatures(outdir,expdir,stationary,varargin)
+% function ftrs = gatherCompiledFeatures(outdir,expdir,stationary,varargin)
 
 [moviename,trxfilename] = myparse(varargin,...
   'moviename','movie.ufmf','trxfilename','trx.mat');

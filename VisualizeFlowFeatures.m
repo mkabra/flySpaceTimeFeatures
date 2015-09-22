@@ -1,9 +1,9 @@
-function im = VisualizeFlowFeatures(bdir,fly,fnum,stationary,method)
+function im = VisualizeFlowFeatures(bdir,fly,fnum,stationary,varargin)
 %% inputs.
 
-if nargin<5,
-  method = 'hs-sup';
-end
+[method,moviename,trxfilename] = myparse(varargin,...
+  'method','deep-sup',...
+  'moviename','movie.ufmf','trxfilename','trx.mat');
 
 if strcmp(method,'LK')
   fname = 'ff';
@@ -26,8 +26,8 @@ end
 % stationary = true;
 % 
 % bdir = '../mated10_20140714T131113/';
-moviename = fullfile(bdir,'movie.ufmf');
-trackfilename = fullfile(bdir,'trx.mat');
+moviename = fullfile(bdir,moviename);
+trackfilename = fullfile(bdir,trxfilename);
 
 %% params
 params = getParams;
