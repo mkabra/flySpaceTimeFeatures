@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
-  <configuration build-checksum="884943566" file="/home/mayank/Work/FlySpaceTime/code/computeFeaturesCompiled.prj" location="/home/mayank/Work/FlySpaceTime/code" name="computeFeaturesCompiled" preferred-package-location="/home/mayank/Work/FlySpaceTime/code/computeFeaturesCompiled/for_redistribution" preferred-package-type="package.type.install" target="target.ezdeploy.standalone" target-name="Application Compiler">
+  <configuration build-checksum="3584775746" file="/home/mayank/work/FlySpaceTime/code/computeFeaturesCompiled.prj" location="/home/mayank/work/FlySpaceTime/code" name="computeFeaturesCompiled" preferred-package-location="/home/mayank/work/FlySpaceTime/code/computeFeaturesCompiled/for_redistribution" preferred-package-type="package.type.install" target="target.ezdeploy.standalone" target-name="Application Compiler">
     <param.appname>computeFeaturesCompiled</param.appname>
     <param.icon />
     <param.icons />
@@ -83,10 +83,10 @@
     </fileset.resources>
     <fileset.package />
     <build-deliverables>
-      <file location="${PROJECT_ROOT}/computeFeaturesCompiled/for_testing" name="computeFeaturesCompiled" optional="false">/home/mayank/Work/FlySpaceTime/code/computeFeaturesCompiled/for_testing/computeFeaturesCompiled</file>
-      <file location="${PROJECT_ROOT}/computeFeaturesCompiled/for_testing" name="splash.png" optional="false">/home/mayank/Work/FlySpaceTime/code/computeFeaturesCompiled/for_testing/splash.png</file>
-      <file location="${PROJECT_ROOT}/computeFeaturesCompiled/for_testing" name="run_computeFeaturesCompiled.sh" optional="false">/home/mayank/Work/FlySpaceTime/code/computeFeaturesCompiled/for_testing/run_computeFeaturesCompiled.sh</file>
-      <file location="${PROJECT_ROOT}/computeFeaturesCompiled/for_testing" name="readme.txt" optional="true">/home/mayank/Work/FlySpaceTime/code/computeFeaturesCompiled/for_testing/readme.txt</file>
+      <file location="${PROJECT_ROOT}/computeFeaturesCompiled/for_testing" name="splash.png" optional="false">/home/mayank/work/FlySpaceTime/code/computeFeaturesCompiled/for_testing/splash.png</file>
+      <file location="${PROJECT_ROOT}/computeFeaturesCompiled/for_testing" name="computeFeaturesCompiled" optional="false">/home/mayank/work/FlySpaceTime/code/computeFeaturesCompiled/for_testing/computeFeaturesCompiled</file>
+      <file location="${PROJECT_ROOT}/computeFeaturesCompiled/for_testing" name="readme.txt" optional="true">/home/mayank/work/FlySpaceTime/code/computeFeaturesCompiled/for_testing/readme.txt</file>
+      <file location="${PROJECT_ROOT}/computeFeaturesCompiled/for_testing" name="run_computeFeaturesCompiled.sh" optional="false">/home/mayank/work/FlySpaceTime/code/computeFeaturesCompiled/for_testing/run_computeFeaturesCompiled.sh</file>
     </build-deliverables>
     <workflow />
     <matlab>
@@ -102,7 +102,7 @@
       <vista>false</vista>
       <linux>true</linux>
       <solaris>false</solaris>
-      <osver>3.13.0-63-generic</osver>
+      <osver>3.13.0-74-generic</osver>
       <os32>false</os32>
       <os64>true</os64>
       <arch>glnxa64</arch>

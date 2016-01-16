@@ -22,7 +22,7 @@ nframes = maxlast-minfirst+1;
 ndx = blocknum;
 [readfcn,nframes,fid,headerinfo] = get_readframe_fcn(moviename);
 fstart = minfirst + (ndx-1)*blocksize;
-fend = min(maxlast,ndx*blocksize);
+fend = min(maxlast,ndx*blocksize+minfirst-1);
 curftrs = genFeatures(readfcn,headerinfo,fstart,fend,tracks,stationary,method);
 fclose(fid);
 
