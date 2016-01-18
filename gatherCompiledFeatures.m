@@ -4,26 +4,35 @@ function ftrs = gatherCompiledFeatures(outdir,expdir,stationary,varargin)
 [moviename,trxfilename] = myparse(varargin,...
   'moviename','movie.ufmf','trxfilename','trx.mat');
 
-[~,nframes] = get_readframe_fcn(fullfile(expdir,moviename));
+% [~,nframes] = get_readframe_fcn(fullfile(expdir,moviename));
 [~,expname] = fileparts(expdir);
 savename = fullfile(outdir,expname);
 params = getParams;
 method = 'deep-sup';
 allftrs = {};
+
+tt = load(fullfile(expdir,trxfilename));
+tracks = tt.trx;
+
+ff = [tracks.firstframe];
+ee = [tracks.endframe];
+
+minfirst = min([tracks.firstframe]);
+maxlast = max([tracks.endframe]);
+nframes = maxlast-minfirst+1;
+
 numblocks = ceil(nframes/params.blocksize);
 for ndx = 1:numblocks
   Q = load(sprintf('%s_%d.mat',savename,ndx));
   allftrs{ndx} = Q.curftrs;
-  
 end
+
 ff = fields(allftrs{1});
 
 params = getParams;
 mndx = find(strcmp(params.methods,method));
 flowname = params.flownames{mndx};
 
-tt = load(fullfile(expdir,trxfilename));
-tracks = tt.trx;
 
 % Initialize the struct for features of all the frames
 ftrs = struct;
