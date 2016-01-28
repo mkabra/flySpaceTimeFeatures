@@ -23,12 +23,17 @@ flow_thres = params.flow_thres;
 
 makeVideo = false;
 
-expdir = '../mated10_20140714T131113';
-% frames = 10900 +(1:200);
-% fly = 1;
+% Antennal grooming for andy
+expdir = '/home/mayank/Dropbox/ForMayankFromAlice/grooming_GMR_30B01_AE_01_CsChr_RigB_20150903T161828/';
 fly = 1;
-% frames = 11043; % large middle leg movement
-frames = 10925; % large middle leg movement
+frames = 5961:5980; 
+
+% expdir = '../mated10_20140714T131113';
+% % frames = 10900 +(1:200);
+% % fly = 1;
+% fly = 1;
+% % frames = 11043; % large middle leg movement
+% frames = 10925; % large middle leg movement
 
 % expdir = '/home/mayank/Work/FlySpaceTime/walkMovies/SS03500';
 % fly = 1;

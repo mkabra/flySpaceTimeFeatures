@@ -534,3 +534,44 @@ linkaxes(ax);
 
 
 linkaxes(ax);
+
+%% Make an antennal grooming video.
+
+expdir = '/home/mayank/Dropbox/ForMayankFromAlice/grooming_GMR_30B01_AE_01_CsChr_RigB_20150903T161828/';
+fly = 1;
+frames = 5961:6040; 
+
+hofim = cell(1,numel(frames));
+hogim = cell(1,numel(frames));
+parfor count = 1:numel(frames)
+  fnum = frames(count);
+  curhofim = VisualizeFlowFeatures(expdir,fly,fnum,0,'trxfilename','registered_trx.mat','method','hs-sup');
+  curhogim = VisualizeHogFeatures(expdir,fly,fnum,'trxfilename','registered_trx.mat');
+  hofim{count} = curhofim.cdata;
+  hogim{count} = curhogim.cdata;
+end
+
+%%
+fig = figure;
+for ndx = 61:numel(frames)
+  figure(fig);
+  imshow(uint8([hofim{ndx} hogim{ndx}]));
+  title(sprintf('%d',ndx))
+  pause(0.5);
+end
+close(fig)
+
+%%
+fig = figure;
+ndx = 72;
+figure(fig);
+imshow(uint8([hofim{ndx} hogim{ndx}]));
+
+%%
+expdir = '/home/mayank/Dropbox/ForMayankFromAlice/grooming_GMR_30B01_AE_01_CsChr_RigB_20150903T161828/';
+fly = 1;
+frames = 5961:6000; 
+
+fnum = frames(1);
+im = VisualizeHogFeatures(expdir,1,fnum,'trxfilename','registered_trx.mat');
+figure; imshow(im.cdata);

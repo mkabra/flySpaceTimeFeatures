@@ -43,7 +43,6 @@ scale = params.scale;
 bincenters = linspace(0,pi,nbins+1);
 bincenters = bincenters(1:nbins);
 
-% mayank divides by 2
 bincenters2 = bincenters*2;
 dt = mean(diff(bincenters2));
 binedges2 = [bincenters2(1)-dt/2,(bincenters2(1:end-1)+bincenters2(2:end))/2,bincenters2(end)+dt/2];
@@ -90,7 +89,7 @@ end
   
 % plot
 
-hfig = figure;
+hfig = figure('Visible','off');
 clf;
 hax = axes('Position',[0,0,1,1]);
 set(hfig,'Units','pixels','Position',get(0,'ScreenSize'));
@@ -99,7 +98,7 @@ im1curr = im1;
 im2curr = im2;
 
 
-him = imshowpair(imresize(im1curr,scale),imresize(im2curr,scale));
+him = imshowpair(imresize(im1curr,scale),imresize(im2curr,scale),'Scaling','none');
 axis image;
 truesize;
 colormap gray;
@@ -133,4 +132,7 @@ for xi = 1:ceil(nc/psize),
     
   end
 end
+truesize(hfig);
 im = getframe(hax);
+pause(0.01);
+close(hfig);

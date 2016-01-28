@@ -1,8 +1,11 @@
-function im = VisualizeHogFeatures(bdir,fly,fnum)
+function im = VisualizeHogFeatures(bdir,fly,fnum,varargin)
 %% inputs.
 
-moviename = fullfile(bdir,'movie.ufmf');
-trackfilename = fullfile(bdir,'trx.mat');
+[moviename,trxfilename] = myparse(varargin,...
+  'moviename','movie.ufmf','trxfilename','trx.mat');
+
+moviename = fullfile(bdir,moviename);
+trackfilename = fullfile(bdir,trxfilename);
 
 fname = 'hf';
 %% params
@@ -12,6 +15,7 @@ nbins = params.nbins;
 patchsz = params.patchsz;
 npatches = params.npatches;
 wd = params.wd;
+scale = params.scale;
 
 %% compute the bins
 
@@ -50,9 +54,7 @@ parfor yy = 1:npatches
 end
   
 % plot
-
-hfig = 100;
-figure(hfig);
+hfig = figure('Visible','off');
 clf;
 hax = axes('Position',[0,0,1,1]);
 set(hfig,'Units','pixels','Position',get(0,'ScreenSize'));
@@ -70,7 +72,8 @@ colors = hsv(nbins);
 colors = colors([ (end/2+1):end 1:end/2],:);
 
 [nr,nc,~] = size(im1);
-maxv2 = max(H(:));
+% maxv2 = max(H(:));
+maxv2 = 0.03;
 
 hogpatch = [wd wd -wd -wd wd;-psize psize psize -psize -psize]/2;
 h = [];
@@ -95,4 +98,5 @@ for xi = 1:ceil(nc/psize),
     
   end
 end
+truesize(hfig);
 im = getframe(hax);
