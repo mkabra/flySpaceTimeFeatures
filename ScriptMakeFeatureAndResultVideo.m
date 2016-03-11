@@ -4,11 +4,25 @@
 expdir = '/home/mayank/Dropbox/ForMayankFromAlice/grooming_GMR_30B01_AE_01_CsChr_RigB_20150903T161828/';
 scorefilename = 'scores_antennal.mat';
 trxfilename = 'registered_trx.mat';
+% fly = 10;
+% frames = 5551:5650;
 fly = 1;
-frames = 5961:5970; 
+frames = 6276:6325;
 outpath = '.';
-outname = 'grooming_result_video.avi';
+outname = sprintf('grooming_result_fly%d_%dto%d.avi',fly,frames(1),frames(end));
 
+%% smooth the trx file
+
+trx = load(fullfile(expdir,trxfilename));
+nsize = 30;
+for flynum = 1:numel(trx.trx)
+  trx.trx(flynum).x = smooth(trx.trx(flynum).x,nsize)';
+  trx.trx(flynum).y = smooth(trx.trx(flynum).y,nsize)';
+  
+end
+save(fullfile(expdir,'smoothed_trx.mat'),'-struct','trx');
+
+%%
 S = load(fullfile(expdir,scorefilename));
 scores = S.allScores.scores{fly}(frames);
 scnorm = S.allScores.scoreNorm;
@@ -17,13 +31,14 @@ scores(scores>1) = 1;
 scores(scores<-1) = -1;
 
 %% grab individual frames overlaid with features.
+curtrxfilename = 'smoothed_trx.mat';
 
 hofim = cell(1,numel(frames));
 hogim = cell(1,numel(frames));
 parfor count = 1:numel(frames)
   fnum = frames(count);
-  curhofim = VisualizeFlowFeatures(expdir,fly,fnum,0,'trxfilename',trxfilename,'method','hs-sup');
-  curhogim = VisualizeHogFeatures(expdir,fly,fnum,'trxfilename',trxfilename);
+  curhofim = VisualizeFlowFeatures(expdir,fly,fnum,0,'trxfilename',curtrxfilename,'method','hs-sup');
+  curhogim = VisualizeHogFeatures(expdir,fly,fnum,'trxfilename',curtrxfilename);
   hofim{count} = curhofim.cdata;
   hogim{count} = curhogim.cdata;
 end
@@ -52,7 +67,7 @@ rho=ones(1,numPoints)*radius;
 
 
 vidobj = VideoWriter(fullfile(outpath,outname));
-set(vidobj,'FrameRate',5,'Quality',90);
+set(vidobj,'FrameRate',5,'Quality',95);
 open(vidobj);
 for ndx = 1:numel(frames)
   figure(fig);
