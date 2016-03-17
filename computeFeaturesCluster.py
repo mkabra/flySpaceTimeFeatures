@@ -30,7 +30,9 @@ def main(argv):
     curname = expname + '_' + str(curb)
     curoutname = outdir + '/' + expname
     curjob = 'export MCR_CACHE_ROOT="/scratch/' +  username + '/mcr_cache_root.' + curname + '";\n'
-    curjob = curjob + './run_computeFeaturesCompiled.sh' + ' ' + mcrpath + ' ' + moviename + ' '+ trxname + ' ' + stationary + ' ' + method + ' '+  str(curb) +' ' + str(blocksize) +' ' + curoutname + ';\n'
+    dirname = os.path.dirname(os.path.realpath(__file__))
+    fullscriptname = os.path.join(dirname,'run_computeFeaturesCompiled.sh')
+    curjob = curjob + fullscriptname + ' ' + mcrpath + ' ' + moviename + ' '+ trxname + ' ' + stationary + ' ' + method + ' '+  str(curb) +' ' + str(blocksize) +' ' + curoutname + ';\n'
     outfile = curoutname + '_' + str(curb) + '_log.txt'
     shfile = curoutname +  '_' + str(curb) + '_script.sh'
     outmatfile = curoutname + '_' + str(curb) + '.mat'
@@ -39,7 +41,7 @@ def main(argv):
     f = open(shfile,'w')
     f.write(curjob)
     f.close()
-    cmd = "qsub -pe batch 1 -N deepFtrs" + curname + " -j y -o " + outfile +  " -b y -cwd -V 'bash " +  shfile +  " > " +  outfile +  ".out '"
+    cmd = "qsub -pe batch 4 -N deepFtrs" + curname + " -j y -o " + outfile +  " -b y -cwd -V 'bash " +  shfile +  " > " +  outfile +  ".out '"
     print cmd
     retval = os.system(cmd)
 
