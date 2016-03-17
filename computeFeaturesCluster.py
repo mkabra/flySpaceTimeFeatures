@@ -41,7 +41,8 @@ def main(argv):
     f = open(shfile,'w')
     f.write(curjob)
     f.close()
-    cmd = "qsub -pe batch 4 -N deepFtrs" + curname + " -j y -o " + outfile +  " -b y -cwd -V 'bash " +  shfile +  " > " +  outfile +  ".out '"
+    timeoutpath = os.path.join(dirname,'mytimeout')
+    cmd = "qsub -pe batch 4 -N deepFtrs" + curname + " -j y -o " + outfile +  ''' -b y -cwd -V ' ''' + timeoutpath + ''' -m 30000000 "bash ''' +  shfile +  " > " +  outfile +  '''.out" ' '''
     print cmd
     retval = os.system(cmd)
 
