@@ -1,14 +1,13 @@
 function ftrs = gatherCompiledFeatures(outdir,expdir,stationary,varargin)
 % function ftrs = gatherCompiledFeatures(outdir,expdir,stationary,varargin)
 
-[moviename,trxfilename] = myparse(varargin,...
-  'moviename','movie.ufmf','trxfilename','trx.mat');
+[moviename,trxfilename,method] = myparse(varargin,...
+  'moviename','movie.ufmf','trxfilename','trx.mat','method','deep-sup');
 
 % [~,nframes] = get_readframe_fcn(fullfile(expdir,moviename));
 [~,expname] = fileparts(expdir);
 savename = fullfile(outdir,expname);
 params = getParams;
-method = 'deep-sup';
 allftrs = {};
 
 tt = load(fullfile(expdir,trxfilename));
