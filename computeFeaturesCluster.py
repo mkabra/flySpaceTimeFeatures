@@ -2,6 +2,7 @@
 import os,sys, getopt
 import math
 import pwd
+import time
 
 def main(argv):
   if len(argv)!=6:
@@ -44,6 +45,7 @@ def main(argv):
     timeoutpath = os.path.join(dirname,'mytimeout')
     cmd = "qsub -pe batch 4 -N deepFtrs" + curname + " -j y -o " + outfile +  ''' -b y -cwd -V ' ''' + timeoutpath + ''' -m 30000000 "bash ''' +  shfile +  " > " +  outfile +  '''.out" ' '''
     print cmd
+    time.sleep(0.5)
     retval = os.system(cmd)
 
 
