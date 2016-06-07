@@ -26,6 +26,8 @@ def main(argv):
     expdir = expdir[0:-1]
 
   (temp,expname) = os.path.split(expdir)
+  if not os.path.isdir(outdir):
+	  os.makedirs(outdir)
 
   for curb in range(1,nblocks+1):
     curname = expname + '_' + str(curb)
