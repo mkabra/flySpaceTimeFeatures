@@ -7,6 +7,7 @@
 % patchsz = psize*npatches;
 
 expdir = '/groups/branson/home/kabram/bransonlab/data/katie/20170308_133311/20170308_133311_08';
+moviefilestr = 'movie.avi';
 frames = 2831:2900; 
 vidoutfile = sprintf('%s_From%d_To%d_HOF_%s.avi',expname,fly,t0,t1,datestr(now,'yyyymmdd'));
 makeVideo = true;
@@ -33,7 +34,6 @@ flow_thres = params.flow_thres;
 
 
 [~,expname] = fileparts(expdir);
-moviefilestr = 'movie.avi';
 moviefile = fullfile(expdir,moviefilestr);
 
 
