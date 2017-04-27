@@ -59,9 +59,14 @@ end
 
 for ndx = fstart:fend
   
-  curpatch = im(:,:, ndx-fstart + 1);
-  curpatch2 = im(:,:, ndx-fstart + 2);
-
+  if params.presmoothing
+    curpatch = gaussSmooth(im(:,:, ndx-fstart + 1),params.smoothing_sigma,'same');
+    curpatch2 = gaussSmooth(im(:,:, ndx-fstart + 2),params.smoothing_sigma,'same');
+  else
+    curpatch = im(:,:, ndx-fstart + 1);
+    curpatch2 = im(:,:, ndx-fstart + 2);
+  end
+  
   curpatch = single(curpatch);
   curpatch2 = single(curpatch2);
   [M,O] = gradientMag(curpatch(:,:,1)/255);
