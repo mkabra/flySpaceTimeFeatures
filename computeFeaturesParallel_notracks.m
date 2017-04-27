@@ -1,20 +1,16 @@
-function ftrs = computeFeaturesParallel(moviename,trackfilename,stationary,method)
+function ftrs = computeFeaturesParallel_notracks(moviename,method)
 
-if nargin<3,
-  stationary = false;
-end
-
-tracks = load(trackfilename);
-tracks = tracks.trx;
 
 [readfcn,nframes,fid,headerinfo] = get_readframe_fcn(moviename);
-fclose(fid);
+if fid>0,
+  fclose(fid);
+end
 
-params = getParams;
+params = getParamsKatie;
 blocksize = params.blocksize;
 
-minfirst = min([tracks.firstframe]);
-maxlast = max([tracks.endframe]);
+minfirst = 1;
+maxlast = nframes;
 nframes = maxlast-minfirst+1;
 nblocks = ceil((nframes-1)/blocksize);
 
@@ -27,11 +23,9 @@ parfor ndx = 1:nblocks
   fstart = minfirst + (ndx-1)*blocksize;
   fend = min(maxlast,ndx*blocksize);
   tic;
-  allftrs{ndx} = genFeatures(readfcn,headerinfo,fstart,fend,tracks,stationary,method,params);
+  allftrs{ndx} = genFeatures_notracks(readfcn,headerinfo,fstart,fend,method,params);
   telapsed = toc;
-  if fid>0
-    fclose(fid);
-  end
+  fclose(fid);
   fprintf('.');
   if mod(ndx,20)==0, fprintf('\n%.2f\n',telapsed); end
 end

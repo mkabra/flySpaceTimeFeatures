@@ -1,4 +1,4 @@
-function ftrs = genFeatures(readfcn,headerinfo,fstart,fend,tracks,stationary,method)
+function ftrs = genFeatures(readfcn,headerinfo,fstart,fend,tracks,stationary,method,params)
 
 if nargin< 6,
   stationary = false;
@@ -6,7 +6,7 @@ end
 
 %% parameters
 
-params = getParams;
+% params = getParams;
 npatches = params.npatches;
 psize = params.psize;
 nbins = params.nbins; 
@@ -22,7 +22,7 @@ optreliability = params.optreliability ;
 tic;
 
 nframes = numel(fstart:fend+1);
-im = uint8(zeros(headerinfo.nc,headerinfo.nr,nframes));
+im = uint8(zeros(headerinfo.nr,headerinfo.nc,nframes));
 count = 1;
 for ndx = fstart:fend
   im(:,:,count) = readfcn(ndx);
