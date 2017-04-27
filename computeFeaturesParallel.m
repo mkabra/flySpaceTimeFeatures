@@ -8,7 +8,9 @@ tracks = load(trackfilename);
 tracks = tracks.trx;
 
 [readfcn,nframes,fid,headerinfo] = get_readframe_fcn(moviename);
-fclose(fid);
+if fid>0
+  fclose(fid);
+end
 
 params = getParams;
 blocksize = params.blocksize;

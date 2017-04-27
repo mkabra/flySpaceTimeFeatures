@@ -9,5 +9,5 @@ method = 'hs-brightness';
 flowname = 'ff';
 ftrs = computeFeaturesParallel_notracks(moviefilename,method);
 expdir = fileparts(moviefilename);
-extractPerframeFtrs(fullfile(expdir,'perframe'),ftrs,stationary,flowname);
+extractPerframeFtrs(fullfile(expdir,'perframe'),ftrs,false,flowname);
   

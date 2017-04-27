@@ -1,8 +1,8 @@
 function ftrs = computeFeaturesParallel_notracks(moviename,method)
 
 
-[readfcn,nframes,fid,headerinfo] = get_readframe_fcn(moviename);
-if fid>0,
+[~,nframes,fid,~] = get_readframe_fcn(moviename);
+if fid>0
   fclose(fid);
 end
 
@@ -19,13 +19,15 @@ allftrs ={};
 % compute features in parallel for different intervals of frames.
 parfor ndx = 1:nblocks
 % for ndx = 1:nblocks
-  [readfcn,nframes,fid,headerinfo] = get_readframe_fcn(moviename);
+  [readfcn,~,fid,headerinfo] = get_readframe_fcn(moviename);
   fstart = minfirst + (ndx-1)*blocksize;
   fend = min(maxlast,ndx*blocksize);
   tic;
   allftrs{ndx} = genFeatures_notracks(readfcn,headerinfo,fstart,fend,method,params);
   telapsed = toc;
-  fclose(fid);
+  if fid>0,
+    fclose(fid);
+  end
   fprintf('.');
   if mod(ndx,20)==0, fprintf('\n%.2f\n',telapsed); end
 end
@@ -34,28 +36,24 @@ ff = fields(allftrs{1});
 
 % Initialize the struct for features of all the frames
 ftrs = struct;
-for fly = 1:numel(tracks)
-  frames_fly = tracks(fly).nframes;
-  for fnum = 1:numel(ff)
-    ftrsz = size(allftrs{1}.(ff{fnum}){1});
-    ftrsz(end) = [];
-    ftrs.(ff{fnum}){fly} = zeros([ftrsz frames_fly],'single');
-  end
+frames_fly = nframes;
+for fnum = 1:numel(ff)
+  ftrsz = size(allftrs{1}.(ff{fnum}){1});
+  ftrsz(end) = [];
+  ftrs.(ff{fnum}){1} = zeros([ftrsz frames_fly],'single');
 end
 
 % assign the features from each block.
 for fnum = 1:numel(ff)
-  for flynum = 1:numel(tracks)
-    count = 1;
-    for bnum = 1:numel(allftrs)
-      numframes = size(allftrs{bnum}.(ff{fnum}){flynum});
-      numframes = numframes(end);
-      if numframes < 1, continue; end
+  count = 1;
+  for bnum = 1:numel(allftrs)
+    numframes = size(allftrs{bnum}.(ff{fnum}){1});
+    numframes = numframes(end);
+    if numframes < 1, continue; end
 %       ftrs.(ff{fnum}){flynum}(:,count:count+numframes-1) = ...
 %         single(reshape(allftrs{bnum}.(ff{fnum}){flynum},[],numframes));
-      ftrs.(ff{fnum}){flynum}(:,:,:,count:count+numframes-1) = ...
-        single(allftrs{bnum}.(ff{fnum}){flynum});
-      count = count + numframes;
-    end
+    ftrs.(ff{fnum}){1}(:,:,:,count:count+numframes-1) = ...
+      single(allftrs{bnum}.(ff{fnum}){1});
+    count = count + numframes;
   end
 end
